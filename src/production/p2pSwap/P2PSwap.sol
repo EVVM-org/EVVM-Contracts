@@ -1,4 +1,6 @@
-// SPDX-License-Identifier: MIT
+// Copyright (c) 2025 GERMAN MARIA ABAL BAZZANO
+// License: EVVM Noncommercial License v1.0 (see LICENSE file)
+
 pragma solidity ^0.8.0;
 /**
 8""""8 eeee 8""""8    8""""8                      

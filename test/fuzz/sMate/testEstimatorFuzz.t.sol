@@ -1,4 +1,6 @@
-// SPDX-License-Identifier: MIT
+// Copyright (c) 2025 GERMAN MARIA ABAL BAZZANO
+// License: EVVM Noncommercial License v1.0 (see LICENSE file)
+
 
 /**
  ____ ____ ____ ____ _________ ____ ____ ____ ____ 

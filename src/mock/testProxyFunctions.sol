@@ -1,11 +1,9 @@
-// SPDX-License-Identifier: MIT
+// Copyright (c) 2025 GERMAN MARIA ABAL BAZZANO
+// License: EVVM Noncommercial License v1.0 (see LICENSE file)
+
 pragma solidity ^0.8.0;
 
-/*
-    Nota: si implementaremos de esta manera para que pueda implementar la lógica adicional en otro contrato
-    debemos usar este abstract como una especie de libreria en el logica adicional asi sabe como se tiene que manejar
-    el storage en el contrato base
- */
+
 abstract contract Storage {
     uint256 number;
     address owner;
@@ -74,35 +72,6 @@ contract Base is Storage {
         if (currentImplementation == address(0))
             revert("Implementacion invalida");
 
-        /*
-        assembly {
-            2. Copiamos los datos de la llamada
-            calldatacopy(0, 0, calldatasize())
-            
-            3. Hacemos delegatecall a la implementación
-            let result := delegatecall(
-                gas(),                                  // Enviamos todo el gas disponible
-                sload(currentImplementation.slot),      // Dirección de la implementación
-                0,                                      // Inicio de la memoria donde están los datos
-                calldatasize(),                         // Tamaño de los datos
-                0,                                      // Donde guardaremos la respuesta
-                0                                       // Tamaño inicial de la respuesta
-            )
-            
-            4. Copiamos la respuesta
-            returndatacopy(0, 0, returndatasize())
-            
-            5. Manejamos el resultado
-            switch result
-            case 0 { revert(0, returndatasize()) }     // Si falló, revertimos
-            default { return(0, returndatasize()) }     // Si funcionó, retornamos
-
-            ? nota personal:
-            ? como es que en yul se puede hacer un switch y NO EN SOLIDITY lcdtm -_-U
-
-        }
-
-        */
 
         assembly {
             calldatacopy(0, 0, calldatasize())
@@ -130,7 +99,7 @@ contract Base is Storage {
 }
 
 
-// Implementación de la lógica adicional
+
 
 interface ILogic {
     function mul(uint256 x) external;
@@ -144,18 +113,11 @@ contract LogicV1 is Storage, ILogic {
         _;
     }
 
-    // Implementamos la función multiply
     function mul(uint256 x) external override notPaused {
         require(x > 0, "El multiplicador debe ser mayor a 0");
         number = number * x;
         emit NumberChanged(number);
     }
-
-    // También podemos llamar a add() del contrato base
-    /*function add() external notPaused {
-        number += 1;
-        emit NumberChanged(number);
-    }*/
 
     function mul_Calc(uint256 id, uint256 x) external override notPaused {
         calc[id] = calc[id] * x;
