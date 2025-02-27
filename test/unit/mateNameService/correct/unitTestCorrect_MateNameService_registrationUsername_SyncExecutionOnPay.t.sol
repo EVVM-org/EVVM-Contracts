@@ -45,14 +45,6 @@ contract unitTestCorrect_MateNameService_registrationUsername_SyncExecutionOnPay
         evvm._setPointStaker(COMMON_USER_STAKER.Address, 0x01);
     }
 
-    /**
-     * Function to test: 
-     * nS: No staker
-     * S: Staker
-     * PF: Includes priority fee
-     * nPF: No priority fee
-     */
-
     function addBalance(
         address user,
         uint256 priorityFeeAmount
@@ -138,6 +130,14 @@ contract unitTestCorrect_MateNameService_registrationUsername_SyncExecutionOnPay
         );
         signatureEVVM = Erc191TestBuilder.buildERC191Signature(v, r, s);
     }
+
+    /**
+     * Function to test: 
+     * nS: No staker
+     * S: Staker
+     * PF: Includes priority fee
+     * nPF: No priority fee
+     */
 
     function test__unit_correct__registrationUsername__nS_nPF() external {
         addBalance(COMMON_USER_NO_STAKER_1.Address, 0);

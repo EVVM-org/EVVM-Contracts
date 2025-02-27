@@ -113,10 +113,7 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
      * Function to test:
      * bSigAt[variable]: bad signature at
      * bPaySigAt[variable]: bad payment signature at
-     * nS: No staker
-     * S: Staker
-     * PF: Includes priority fee
-     * nPF: No priority fee
+     * some denominations on test can be explicit expleined
      */
 
     /*
@@ -195,7 +192,9 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
     }
     */
 
-   function test__unit_revert__preRegistrationUsername__bSigAtSigner() external {
+    function test__unit_revert__preRegistrationUsername__bSigAtSigner()
+        external
+    {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -497,7 +496,9 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
         );
     }
 
-    function test__unit_revert__preRegistrationUsername__bPaySigAtSigner() external {
+    function test__unit_revert__preRegistrationUsername__bPaySigAtSigner()
+        external
+    {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -571,7 +572,9 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
         );
     }
 
-    function test__unit_revert__preRegistrationUsername__bPaySigAtToAddress() external {
+    function test__unit_revert__preRegistrationUsername__bPaySigAtToAddress()
+        external
+    {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -645,7 +648,9 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
         );
     }
 
-    function test__unit_revert__preRegistrationUsername__bPaySigAtToIdentity() external {
+    function test__unit_revert__preRegistrationUsername__bPaySigAtToIdentity()
+        external
+    {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -719,7 +724,9 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
         );
     }
 
-    function test__unit_revert__preRegistrationUsername__bPaySigAtTokenAddress() external {
+    function test__unit_revert__preRegistrationUsername__bPaySigAtTokenAddress()
+        external
+    {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -793,7 +800,9 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
         );
     }
 
-    function test__unit_revert__preRegistrationUsername__bPaySigAtAmount() external {
+    function test__unit_revert__preRegistrationUsername__bPaySigAtAmount()
+        external
+    {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -867,7 +876,9 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
         );
     }
 
-    function test__unit_revert__preRegistrationUsername__bPaySigAtPriorityFeeAmount() external {
+    function test__unit_revert__preRegistrationUsername__bPaySigAtPriorityFeeAmount()
+        external
+    {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -941,7 +952,9 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
         );
     }
 
-    function test__unit_revert__preRegistrationUsername__bPaySigAtNonceEVVM() external {
+    function test__unit_revert__preRegistrationUsername__bPaySigAtNonceEVVM()
+        external
+    {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -1015,7 +1028,9 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
         );
     }
 
-    function test__unit_revert__preRegistrationUsername__bPaySigAtPriorityFlag() external {
+    function test__unit_revert__preRegistrationUsername__bPaySigAtPriorityFlag()
+        external
+    {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -1089,7 +1104,9 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
         );
     }
 
-    function test__unit_revert__preRegistrationUsername__bPaySigAtExecutor() external {
+    function test__unit_revert__preRegistrationUsername__bPaySigAtExecutor()
+        external
+    {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -1160,6 +1177,90 @@ contract unitTestRevert_MateNameService_preRegistrationUsername is
         assertEq(
             evvm.seeBalance(COMMON_USER_STAKER.Address, MATE_TOKEN_ADDRESS),
             0
+        );
+    }
+
+    function test__unit_revert__preRegistrationUsername__EVVMnonceAlreadyUsed()
+        external
+    {
+        bytes memory signatureMNS;
+        bytes memory signatureEVVM;
+
+        uint256 totalPriorityFeeAmount = addBalance(
+            COMMON_USER_NO_STAKER_1,
+            MATE_TOKEN_ADDRESS,
+            0.001 ether
+        );
+
+        (signatureMNS, signatureEVVM) = makePreRegistrationUsernameSignature(
+            COMMON_USER_NO_STAKER_1,
+            "user",
+            10101,
+            1001,
+            true,
+            0,
+            101,
+            true
+        );
+
+        vm.startPrank(COMMON_USER_STAKER.Address);
+        mns.preRegistrationUsername(
+            COMMON_USER_NO_STAKER_1.Address,
+            1001,
+            keccak256(abi.encodePacked("user", uint256(10101))),
+            0,
+            signatureMNS,
+            101,
+            true,
+            signatureEVVM
+        );
+        vm.stopPrank();
+
+        (signatureMNS, signatureEVVM) = makePreRegistrationUsernameSignature(
+            COMMON_USER_NO_STAKER_1,
+            "test",
+            10101,
+            1001,
+            true,
+            totalPriorityFeeAmount,
+            202,
+            true
+        );
+
+        vm.startPrank(COMMON_USER_STAKER.Address);
+        vm.expectRevert();
+        mns.preRegistrationUsername(
+            COMMON_USER_NO_STAKER_1.Address,
+            1001,
+            keccak256(abi.encodePacked("test", uint256(10101))),
+            totalPriorityFeeAmount,
+            signatureMNS,
+            202,
+            true,
+            signatureEVVM
+        );
+        vm.stopPrank();
+
+        (address user, ) = mns.getIdentityBasicMetadata(
+            string.concat(
+                "@",
+                AdvancedStrings.bytes32ToString(
+                    keccak256(abi.encodePacked("test", uint256(10101)))
+                )
+            )
+        );
+        assertEq(user, address(0));
+
+        assertEq(
+            evvm.seeBalance(
+                COMMON_USER_NO_STAKER_1.Address,
+                MATE_TOKEN_ADDRESS
+            ),
+            totalPriorityFeeAmount
+        );
+        assertEq(
+            evvm.seeBalance(COMMON_USER_STAKER.Address, MATE_TOKEN_ADDRESS),
+            evvm.seeMateReward()
         );
     }
 }
