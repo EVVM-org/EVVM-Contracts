@@ -347,6 +347,10 @@ unitTestRevertMateNameServicePreRegistrationUsername:
 	@echo "Running MateNameService unit revert tests"
 		@forge test --match-path test/unit/mateNameService/revert/unitTestRevert_MateNameService_preRegistrationUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
 
+unitTestRevertMateNameServiceRegistrationUsername:
+	@echo "Running MateNameService unit revert tests"
+		@forge test --match-path test/unit/mateNameService/revert/unitTestRevert_MateNameService_registrationUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
+
 ######################################################################################################
 
 
