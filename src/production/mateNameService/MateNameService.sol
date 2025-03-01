@@ -92,7 +92,6 @@ contract MateNameService {
 
     uint256 private mateTokenLockedForWithdrawOffers;
 
-
     modifier onlyAdmin() {
         if (msg.sender != admin.current) {
             revert();
@@ -195,7 +194,8 @@ contract MateNameService {
         if (Evvm(evvmAddress.current).isMateStaker(msg.sender)) {
             makeCaPay(
                 msg.sender,
-                Evvm(evvmAddress.current).seeMateReward() + _priorityFeeForFisher
+                Evvm(evvmAddress.current).seeMateReward() +
+                    _priorityFeeForFisher
             );
         }
     }
@@ -285,7 +285,8 @@ contract MateNameService {
         if (Evvm(evvmAddress.current).isMateStaker(msg.sender)) {
             makeCaPay(
                 msg.sender,
-                (50 * Evvm(evvmAddress.current).seeMateReward()) + _priorityFeeForFisher
+                (50 * Evvm(evvmAddress.current).seeMateReward()) +
+                    _priorityFeeForFisher
             );
         }
 
@@ -599,7 +600,7 @@ contract MateNameService {
 
         if (offerID > identityDetails[_username].offerMaxSlots) {
             identityDetails[_username].offerMaxSlots++;
-        } else if(identityDetails[_username].offerMaxSlots == 0) {
+        } else if (identityDetails[_username].offerMaxSlots == 0) {
             identityDetails[_username].offerMaxSlots++;
         }
 
@@ -636,7 +637,6 @@ contract MateNameService {
         bytes memory _signature_Evvm
     ) public verifyIfNonceIsAvailable(_user, _nonce) onlyFisher {
         if (
-            identityDetails[_username].flagNotAUsername == 0x01 ||
             usernameOffers[_username][_offerID].offerer != _user ||
             !verifyMessageSignedForWithdrawOffer(
                 _user,
@@ -1020,7 +1020,8 @@ contract MateNameService {
         if (Evvm(evvmAddress.current).isMateStaker(msg.sender)) {
             makeCaPay(
                 msg.sender,
-                (5 * Evvm(evvmAddress.current).seeMateReward()) + _priorityFeeForFisher
+                (5 * Evvm(evvmAddress.current).seeMateReward()) +
+                    _priorityFeeForFisher
             );
         }
     }
@@ -1157,7 +1158,7 @@ contract MateNameService {
         );
     }
 
-//█Tools for admin█████████████████████████████████████████████████████████████████████████████
+    //█Tools for admin█████████████████████████████████████████████████████████████████████████████
 
     function proposeAdmin(address _adminToPropose) public onlyAdmin {
         if (_adminToPropose == address(0) || _adminToPropose == admin.current) {
@@ -1190,10 +1191,7 @@ contract MateNameService {
 
     function proposeWithdrawMateTokens(uint256 _amount) public onlyAdmin {
         if (
-            Evvm(evvmAddress.current).seeBalance(
-                address(this),
-                MATE_TOKEN
-            ) -
+            Evvm(evvmAddress.current).seeBalance(address(this), MATE_TOKEN) -
                 (5083 +
                     Evvm(evvmAddress.current).seeMateReward() +
                     mateTokenLockedForWithdrawOffers) <
@@ -1205,7 +1203,6 @@ contract MateNameService {
 
         amountToWithdrawTokens.proposal = _amount;
         amountToWithdrawTokens.timeToAccept = block.timestamp + 1 days;
-
     }
 
     function cancelWithdrawMateTokens() public onlyAdmin {
@@ -1224,7 +1221,9 @@ contract MateNameService {
         amountToWithdrawTokens.timeToAccept = 0;
     }
 
-    function proposeChangeEvvmAddress(address _newEvvmAddress) public onlyAdmin {
+    function proposeChangeEvvmAddress(
+        address _newEvvmAddress
+    ) public onlyAdmin {
         if (_newEvvmAddress == address(0)) {
             revert();
         }
@@ -1322,7 +1321,9 @@ contract MateNameService {
         if (stopChangeVerificationsAddress.flag) {
             revert();
         }
-        stopChangeVerificationsAddress.timeToAcceptChange = block.timestamp + 1 days;
+        stopChangeVerificationsAddress.timeToAcceptChange =
+            block.timestamp +
+            1 days;
     }
 
     function cancelSetStopChangeVerificationsAddress() public onlyAdmin {
@@ -1330,7 +1331,9 @@ contract MateNameService {
     }
 
     function setStopChangeVerificationsAddress() public onlyAdmin {
-        if (block.timestamp < stopChangeVerificationsAddress.timeToAcceptChange) {
+        if (
+            block.timestamp < stopChangeVerificationsAddress.timeToAcceptChange
+        ) {
             revert();
         }
         stopChangeVerificationsAddress = BoolTypeProposal({
@@ -1839,9 +1842,7 @@ contract MateNameService {
         string memory _identity
     ) public view returns (uint256 price) {
         ///verifica si es menor a 366 días
-        if (
-                identityDetails[_identity].expireDate >= block.timestamp 
-        ) {
+        if (identityDetails[_identity].expireDate >= block.timestamp) {
             if (
                 usernameOffers[_identity][0].amount != 0 &&
                 usernameOffers[_identity][0].expireDate != 0
@@ -1881,7 +1882,6 @@ contract MateNameService {
     function getPriceToAddCustomMetadata() public view returns (uint256 price) {
         price = 10 * Evvm(evvmAddress.current).seeMateReward();
     }
-
 
     function getPriceToRemoveCustomMetadata()
         public
@@ -2019,38 +2019,45 @@ contract MateNameService {
         return admin.current;
     }
 
-    function getAdminFullDetails() public view returns (
-        address currentAdmin,
-        address proposalAdmin,
-        uint256 timeToAcceptAdmin
-    ) {
-        return (
-            admin.current,
-            admin.proposal,
-            admin.timeToAccept
-        );
+    function getAdminFullDetails()
+        public
+        view
+        returns (
+            address currentAdmin,
+            address proposalAdmin,
+            uint256 timeToAcceptAdmin
+        )
+    {
+        return (admin.current, admin.proposal, admin.timeToAccept);
     }
 
-    function getProposedWithdrawAmountFullDetails() public view returns (
-        uint256 proposalAmountToWithdrawTokens,
-        uint256 timeToAcceptAmountToWithdrawTokens
-    ) {
+    function getProposedWithdrawAmountFullDetails()
+        public
+        view
+        returns (
+            uint256 proposalAmountToWithdrawTokens,
+            uint256 timeToAcceptAmountToWithdrawTokens
+        )
+    {
         return (
             amountToWithdrawTokens.proposal,
             amountToWithdrawTokens.timeToAccept
         );
     }
 
-
     function getEvvmAddress() public view returns (address) {
         return evvmAddress.current;
     }
 
-    function getEvvmAddressFullDetails() public view returns (
-        address currentEvvmAddress,
-        address proposalEvvmAddress,
-        uint256 timeToAcceptEvvmAddress
-    ) {
+    function getEvvmAddressFullDetails()
+        public
+        view
+        returns (
+            address currentEvvmAddress,
+            address proposalEvvmAddress,
+            uint256 timeToAcceptEvvmAddress
+        )
+    {
         return (
             evvmAddress.current,
             evvmAddress.proposal,
@@ -2062,11 +2069,15 @@ contract MateNameService {
         return addressPhoneNumberRegistery.current;
     }
 
-    function getPhoneNumberRegisteryFullDetails() public view returns (
-        address currentPhoneNumberRegistery,
-        address proposalPhoneNumberRegistery,
-        uint256 timeToAcceptPhoneNumberRegistery
-    ) {
+    function getPhoneNumberRegisteryFullDetails()
+        public
+        view
+        returns (
+            address currentPhoneNumberRegistery,
+            address proposalPhoneNumberRegistery,
+            uint256 timeToAcceptPhoneNumberRegistery
+        )
+    {
         return (
             addressPhoneNumberRegistery.current,
             addressPhoneNumberRegistery.proposal,
@@ -2078,11 +2089,15 @@ contract MateNameService {
         return addressEmailRegistery.current;
     }
 
-    function getEmailRegisteryFullDetails() public view returns (
-        address currentEmailRegistery,
-        address proposalEmailRegistery,
-        uint256 timeToAcceptEmailRegistery
-    ) {
+    function getEmailRegisteryFullDetails()
+        public
+        view
+        returns (
+            address currentEmailRegistery,
+            address proposalEmailRegistery,
+            uint256 timeToAcceptEmailRegistery
+        )
+    {
         return (
             addressEmailRegistery.current,
             addressEmailRegistery.proposal,
@@ -2094,11 +2109,15 @@ contract MateNameService {
         return addressAutority.current;
     }
 
-    function getAutorityFullDetails() public view returns (
-        address currentAutority,
-        address proposalAutority,
-        uint256 timeToAcceptAutority
-    ) {
+    function getAutorityFullDetails()
+        public
+        view
+        returns (
+            address currentAutority,
+            address proposalAutority,
+            uint256 timeToAcceptAutority
+        )
+    {
         return (
             addressAutority.current,
             addressAutority.proposal,
@@ -2106,10 +2125,11 @@ contract MateNameService {
         );
     }
 
-    function getStopChangeVerificationsAddressFullDetails() public view returns (
-        bool flag,
-        uint256 timeToAcceptChange
-    ) {
+    function getStopChangeVerificationsAddressFullDetails()
+        public
+        view
+        returns (bool flag, uint256 timeToAcceptChange)
+    {
         return (
             stopChangeVerificationsAddress.flag,
             stopChangeVerificationsAddress.timeToAcceptChange

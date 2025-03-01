@@ -99,7 +99,6 @@ contract MateNameServiceMock {
 
     uint256 private mateTokenLockedForWithdrawOffers;
 
-
     modifier onlyAdmin() {
         if (msg.sender != admin.current) {
             revert InvalidOwner();
@@ -596,7 +595,6 @@ contract MateNameServiceMock {
         bytes memory _signature_Evvm
     ) public verifyIfNonceIsAvailable(_user, _nonce) {
         if (
-            identityDetails[_username].flagNotAUsername == 0x01 ||
             usernameOffers[_username][_offerID].offerer != _user ||
             !verifyMessageSignedForWithdrawOffer(
                 _user,
@@ -1134,7 +1132,6 @@ contract MateNameServiceMock {
 
         amountToWithdrawTokens.proposal = _amount;
         amountToWithdrawTokens.timeToAccept = block.timestamp + 1 days;
-
     }
 
     function cancelWithdrawMateTokens() public onlyAdmin {
@@ -1153,7 +1150,9 @@ contract MateNameServiceMock {
         amountToWithdrawTokens.timeToAccept = 0;
     }
 
-    function proposeChangeEvvmAddress(address _newEvvmAddress) public onlyAdmin {
+    function proposeChangeEvvmAddress(
+        address _newEvvmAddress
+    ) public onlyAdmin {
         if (_newEvvmAddress == address(0)) {
             revert();
         }
@@ -1251,7 +1250,9 @@ contract MateNameServiceMock {
         if (stopChangeVerificationsAddress.flag) {
             revert();
         }
-        stopChangeVerificationsAddress.timeToAcceptChange = block.timestamp + 1 days;
+        stopChangeVerificationsAddress.timeToAcceptChange =
+            block.timestamp +
+            1 days;
     }
 
     function cancelSetStopChangeVerificationsAddress() public onlyAdmin {
@@ -1259,7 +1260,9 @@ contract MateNameServiceMock {
     }
 
     function setStopChangeVerificationsAddress() public onlyAdmin {
-        if (block.timestamp < stopChangeVerificationsAddress.timeToAcceptChange) {
+        if (
+            block.timestamp < stopChangeVerificationsAddress.timeToAcceptChange
+        ) {
             revert();
         }
         stopChangeVerificationsAddress = BoolTypeProposal({
@@ -1950,38 +1953,45 @@ contract MateNameServiceMock {
         return admin.current;
     }
 
-    function getAdminFullDetails() public view returns (
-        address currentAdmin,
-        address proposalAdmin,
-        uint256 timeToAcceptAdmin
-    ) {
-        return (
-            admin.current,
-            admin.proposal,
-            admin.timeToAccept
-        );
+    function getAdminFullDetails()
+        public
+        view
+        returns (
+            address currentAdmin,
+            address proposalAdmin,
+            uint256 timeToAcceptAdmin
+        )
+    {
+        return (admin.current, admin.proposal, admin.timeToAccept);
     }
 
-    function getProposedWithdrawAmountFullDetails() public view returns (
-        uint256 proposalAmountToWithdrawTokens,
-        uint256 timeToAcceptAmountToWithdrawTokens
-    ) {
+    function getProposedWithdrawAmountFullDetails()
+        public
+        view
+        returns (
+            uint256 proposalAmountToWithdrawTokens,
+            uint256 timeToAcceptAmountToWithdrawTokens
+        )
+    {
         return (
             amountToWithdrawTokens.proposal,
             amountToWithdrawTokens.timeToAccept
         );
     }
 
-
     function getEvvmAddress() public view returns (address) {
         return evvmAddress.current;
     }
 
-    function getEvvmAddressFullDetails() public view returns (
-        address currentEvvmAddress,
-        address proposalEvvmAddress,
-        uint256 timeToAcceptEvvmAddress
-    ) {
+    function getEvvmAddressFullDetails()
+        public
+        view
+        returns (
+            address currentEvvmAddress,
+            address proposalEvvmAddress,
+            uint256 timeToAcceptEvvmAddress
+        )
+    {
         return (
             evvmAddress.current,
             evvmAddress.proposal,
@@ -1993,11 +2003,15 @@ contract MateNameServiceMock {
         return addressPhoneNumberRegistery.current;
     }
 
-    function getPhoneNumberRegisteryFullDetails() public view returns (
-        address currentPhoneNumberRegistery,
-        address proposalPhoneNumberRegistery,
-        uint256 timeToAcceptPhoneNumberRegistery
-    ) {
+    function getPhoneNumberRegisteryFullDetails()
+        public
+        view
+        returns (
+            address currentPhoneNumberRegistery,
+            address proposalPhoneNumberRegistery,
+            uint256 timeToAcceptPhoneNumberRegistery
+        )
+    {
         return (
             addressPhoneNumberRegistery.current,
             addressPhoneNumberRegistery.proposal,
@@ -2009,11 +2023,15 @@ contract MateNameServiceMock {
         return addressEmailRegistery.current;
     }
 
-    function getEmailRegisteryFullDetails() public view returns (
-        address currentEmailRegistery,
-        address proposalEmailRegistery,
-        uint256 timeToAcceptEmailRegistery
-    ) {
+    function getEmailRegisteryFullDetails()
+        public
+        view
+        returns (
+            address currentEmailRegistery,
+            address proposalEmailRegistery,
+            uint256 timeToAcceptEmailRegistery
+        )
+    {
         return (
             addressEmailRegistery.current,
             addressEmailRegistery.proposal,
@@ -2025,11 +2043,15 @@ contract MateNameServiceMock {
         return addressAutority.current;
     }
 
-    function getAutorityFullDetails() public view returns (
-        address currentAutority,
-        address proposalAutority,
-        uint256 timeToAcceptAutority
-    ) {
+    function getAutorityFullDetails()
+        public
+        view
+        returns (
+            address currentAutority,
+            address proposalAutority,
+            uint256 timeToAcceptAutority
+        )
+    {
         return (
             addressAutority.current,
             addressAutority.proposal,
@@ -2037,14 +2059,14 @@ contract MateNameServiceMock {
         );
     }
 
-    function getStopChangeVerificationsAddressFullDetails() public view returns (
-        bool flag,
-        uint256 timeToAcceptChange
-    ) {
+    function getStopChangeVerificationsAddressFullDetails()
+        public
+        view
+        returns (bool flag, uint256 timeToAcceptChange)
+    {
         return (
             stopChangeVerificationsAddress.flag,
             stopChangeVerificationsAddress.timeToAcceptChange
         );
     }
-
 }
