@@ -358,6 +358,15 @@ unitTestRevertMateNameServiceMakeOffer:
 unitTestRevertMateNameServiceWithdrawOffer:
 	@echo "Running MateNameService unit revert tests"
 	@forge test --match-path test/unit/mateNameService/revert/unitTestRevert_MateNameService_withdrawOffer.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+unitTestRevertMateNameServiceAcceptOffer:
+	@echo "Running MateNameService unit revert tests"
+	@forge test --match-path test/unit/mateNameService/revert/unitTestRevert_MateNameService_acceptOffer.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+unitTestRevertMateNameServiceRenewUsername:
+	@echo "Running MateNameService unit revert tests"
+	@forge test --match-path test/unit/mateNameService/revert/unitTestRevert_MateNameService_renewUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
+
 ######################################################################################################
 
 
