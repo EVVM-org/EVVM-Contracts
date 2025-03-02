@@ -673,7 +673,6 @@ contract MateNameServiceMock {
         verifyIfNonceIsAvailable(_user, _nonce)
     {
         if (
-            identityDetails[_username].flagNotAUsername == 0x01 ||
             usernameOffers[_username][_offerID].offerer == address(0) ||
             usernameOffers[_username][_offerID].expireDate < block.timestamp
         ) {
@@ -775,10 +774,8 @@ contract MateNameServiceMock {
         ) {
             revert();
         }
-        // checamos que la fecha de expiracion no sobnrepase el maximo de 100 años si se hace revert
         if (
-            identityDetails[_username].expireDate + 366 days >
-            block.timestamp + 36600 days
+            identityDetails[_username].expireDate > block.timestamp + 36500 days
         ) {
             revert();
         }
