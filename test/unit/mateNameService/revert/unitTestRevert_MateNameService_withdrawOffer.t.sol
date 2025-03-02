@@ -276,7 +276,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
 
     /*
 
-    function test__unit_correct__withdrawOffer__bPaySigAt() external {
+    function test__unit_revert__withdrawOffer__bPaySigAt() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -355,7 +355,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
 
     ///////////////////////////////////////////////////////////////////////////////////
 
-    function test__unit_correct__withdrawOffer__() external {
+    function test__unit_revert__withdrawOffer__() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -416,7 +416,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
     }
     */
 
-    function test__unit_correct__withdrawOffer__bSigAtSigner() external {
+    function test__unit_revert__withdrawOffer__bSigAtSigner() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -493,7 +493,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bSigAtUsername() external {
+    function test__unit_revert__withdrawOffer__bSigAtUsername() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -570,7 +570,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bSigAtOfferID() external {
+    function test__unit_revert__withdrawOffer__bSigAtOfferID() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -647,7 +647,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bSigAtNonceMNS() external {
+    function test__unit_revert__withdrawOffer__bSigAtNonceMNS() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -720,7 +720,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bPaySigAtSigner() external {
+    function test__unit_revert__withdrawOffer__bPaySigAtSigner() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -797,7 +797,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bPaySigAtToAddress() external {
+    function test__unit_revert__withdrawOffer__bPaySigAtToAddress() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -874,7 +874,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bPaySigAtToIdentity() external {
+    function test__unit_revert__withdrawOffer__bPaySigAtToIdentity() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -951,7 +951,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bPaySigAtTokenAddress()
+    function test__unit_revert__withdrawOffer__bPaySigAtTokenAddress()
         external
     {
         uint256 totalPriorityFee = addBalance(
@@ -1030,7 +1030,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bPaySigAtAmount() external {
+    function test__unit_revert__withdrawOffer__bPaySigAtAmount() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -1107,7 +1107,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bPaySigAtPriorityFee()
+    function test__unit_revert__withdrawOffer__bPaySigAtPriorityFee()
         external
     {
         uint256 totalPriorityFee = addBalance(
@@ -1186,7 +1186,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bPaySigAtNonceEVVM() external {
+    function test__unit_revert__withdrawOffer__bPaySigAtNonceEVVM() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -1263,7 +1263,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bPaySigAtPriorityFlag()
+    function test__unit_revert__withdrawOffer__bPaySigAtPriorityFlag()
         external
     {
         uint256 totalPriorityFee = addBalance(
@@ -1342,7 +1342,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__bPaySigAtExecutor() external {
+    function test__unit_revert__withdrawOffer__bPaySigAtExecutor() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -1419,7 +1419,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__addressIsNotOfferer() external {
+    function test__unit_revert__withdrawOffer__addressIsNotOfferer() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_3,
             0.0001 ether
@@ -1479,7 +1479,7 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
         );
     }
 
-    function test__unit_correct__withdrawOffer__NonceAlreadyUsed() external {
+    function test__unit_revert__withdrawOffer__NonceAlreadyUsed() external {
         uint256 totalPriorityFee = addBalance(
             COMMON_USER_NO_STAKER_2,
             0.0001 ether
@@ -1510,6 +1510,66 @@ contract unitTestRevert_MateNameService_withdrawOffer is Test, Constants {
             10001,
             "test",
             0,
+            totalPriorityFee,
+            signatureMNS,
+            10000001,
+            true,
+            signatureEVVM
+        );
+
+        vm.stopPrank();
+
+        MateNameServiceMock.OfferMetadata memory checkDataAfter = mns
+            .getSingleOfferOfUsername("test", 0);
+
+        assertEq(checkDataAfter.offerer, checkDataBefore.offerer);
+        assertEq(checkDataAfter.amount, checkDataBefore.amount);
+        assertEq(checkDataAfter.expireDate, checkDataBefore.expireDate);
+
+        assertEq(
+            evvm.seeBalance(
+                COMMON_USER_NO_STAKER_2.Address,
+                MATE_TOKEN_ADDRESS
+            ),
+            totalPriorityFee
+        );
+        assertEq(
+            evvm.seeBalance(COMMON_USER_STAKER.Address, MATE_TOKEN_ADDRESS),
+            0
+        );
+    }
+
+    function test__unit_revert__withdrawOffer__userTriesToCallOutOfBounds() external {
+        uint256 totalPriorityFee = addBalance(
+            COMMON_USER_NO_STAKER_2,
+            0.0001 ether
+        );
+
+        (
+            bytes memory signatureMNS,
+            bytes memory signatureEVVM
+        ) = makeWithdrawOfferSignatures(
+                COMMON_USER_NO_STAKER_2,
+                true,
+                "test",
+                5,
+                100010001,
+                totalPriorityFee,
+                10000001,
+                true
+            );
+
+        MateNameServiceMock.OfferMetadata memory checkDataBefore = mns
+            .getSingleOfferOfUsername("test", 0);
+
+        vm.startPrank(COMMON_USER_STAKER.Address);
+
+        vm.expectRevert();
+        mns.withdrawOffer(
+            COMMON_USER_NO_STAKER_2.Address,
+            100010001,
+            "test",
+            5,
             totalPriorityFee,
             signatureMNS,
             10000001,
