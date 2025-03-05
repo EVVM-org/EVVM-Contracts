@@ -2002,10 +2002,10 @@ contract MateNameService {
         } while (usernameOffers[_username][length].expireDate != 0);
     }
 
-    function getExpireDateOfUsername(
-        string memory _phoneNumber
+    function getExpireDateOfIdentity(
+        string memory _identity
     ) public view returns (uint256) {
-        return identityDetails[_phoneNumber].expireDate;
+        return identityDetails[_identity].expireDate;
     }
 
     function getPricePerRegistration() public view returns (uint256) {
