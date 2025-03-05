@@ -375,6 +375,18 @@ unitTestRevertMateNameServiceRemoveCustomMetadata:
 	@echo "Running MateNameService unit revert tests"
 	@forge test --match-path test/unit/mateNameService/revert/unitTestRevert_MateNameService_removeCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
 
+unitTestRevertMateNameServiceFlushCustomMetadata:
+	@echo "Running MateNameService unit revert tests"
+	@forge test --match-path test/unit/mateNameService/revert/unitTestRevert_MateNameService_flushCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+unitTestRevertMateNameServiceFlushUsername:
+	@echo "Running MateNameService unit revert tests"
+	@forge test --match-path test/unit/mateNameService/revert/unitTestRevert_MateNameService_flushUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+unitTestRevertMateNameServiceAdminFunctions:
+	@echo "Running MateNameService unit revert tests"
+	@forge test --match-path test/unit/mateNameService/revert/unitTestRevert_MateNameService_adminFunctions.t.sol --summary --detailed --gas-report -vvv --show-progress
+
 ######################################################################################################
 
 

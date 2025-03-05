@@ -95,7 +95,7 @@ contract unitTestCorrect_MateNameService_flushUsername_AsyncExecutionOnPay is
                 priorityFeeAmount
         );
 
-        totalAmountFlush = mns.getPriceToFlushCustomMetadata(
+        totalAmountFlush = mns.getPriceToFlushUsername(
             usernameToFlushCustomMetadata
         );
         totalPriorityFeeAmount = priorityFeeAmount;
