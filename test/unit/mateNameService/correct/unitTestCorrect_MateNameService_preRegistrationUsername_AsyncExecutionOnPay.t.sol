@@ -45,14 +45,6 @@ contract unitTestCorrect_MateNameService_preRegistrationUsername_AsyncExecutionO
         evvm._setPointStaker(COMMON_USER_STAKER.Address, 0x01);
     }
 
-    /**
-     * Function to test: 
-     * nS: No staker
-     * S: Staker
-     * PF: Includes priority fee
-     * nPF: No priority fee
-     */
-
     function addBalance(
         address user,
         address token,
@@ -116,9 +108,15 @@ contract unitTestCorrect_MateNameService_preRegistrationUsername_AsyncExecutionO
         }
     }
 
+    /**
+     * Function to test:
+     * nS: No staker
+     * S: Staker
+     * PF: Includes priority fee
+     * nPF: No priority fee
+     */
+
     function test__unit_correct__preRegistrationUsername__nS_nPF() external {
-
-
         (bytes memory signatureMNS, ) = makePreRegistrationUsernameSignature(
             "test",
             10101,
@@ -153,12 +151,20 @@ contract unitTestCorrect_MateNameService_preRegistrationUsername_AsyncExecutionO
             )
         );
 
+        assertEq(user, COMMON_USER_NO_STAKER_1.Address);
+
         assertEq(
-            evvm.seeBalance(COMMON_USER_NO_STAKER_1.Address, MATE_TOKEN_ADDRESS),
+            evvm.seeBalance(
+                COMMON_USER_NO_STAKER_1.Address,
+                MATE_TOKEN_ADDRESS
+            ),
             0
         );
         assertEq(
-            evvm.seeBalance(COMMON_USER_NO_STAKER_2.Address, MATE_TOKEN_ADDRESS),
+            evvm.seeBalance(
+                COMMON_USER_NO_STAKER_2.Address,
+                MATE_TOKEN_ADDRESS
+            ),
             0
         );
     }
@@ -207,19 +213,22 @@ contract unitTestCorrect_MateNameService_preRegistrationUsername_AsyncExecutionO
         assertEq(user, COMMON_USER_NO_STAKER_1.Address);
 
         assertEq(
-            evvm.seeBalance(COMMON_USER_NO_STAKER_1.Address, MATE_TOKEN_ADDRESS),
+            evvm.seeBalance(
+                COMMON_USER_NO_STAKER_1.Address,
+                MATE_TOKEN_ADDRESS
+            ),
             0
         );
         assertEq(
-            evvm.seeBalance(COMMON_USER_NO_STAKER_2.Address, MATE_TOKEN_ADDRESS),
+            evvm.seeBalance(
+                COMMON_USER_NO_STAKER_2.Address,
+                MATE_TOKEN_ADDRESS
+            ),
             0
         );
     }
 
-    
-
     function test__unit_correct__preRegistrationUsername__S_nPF() external {
-    
         (bytes memory signatureMNS, ) = makePreRegistrationUsernameSignature(
             "test",
             10101,
@@ -254,8 +263,13 @@ contract unitTestCorrect_MateNameService_preRegistrationUsername_AsyncExecutionO
             )
         );
 
+        assertEq(user, COMMON_USER_NO_STAKER_1.Address);
+
         assertEq(
-            evvm.seeBalance(COMMON_USER_NO_STAKER_1.Address, MATE_TOKEN_ADDRESS),
+            evvm.seeBalance(
+                COMMON_USER_NO_STAKER_1.Address,
+                MATE_TOKEN_ADDRESS
+            ),
             0
         );
         assertEq(
@@ -308,7 +322,10 @@ contract unitTestCorrect_MateNameService_preRegistrationUsername_AsyncExecutionO
         assertEq(user, COMMON_USER_NO_STAKER_1.Address);
 
         assertEq(
-            evvm.seeBalance(COMMON_USER_NO_STAKER_1.Address, MATE_TOKEN_ADDRESS),
+            evvm.seeBalance(
+                COMMON_USER_NO_STAKER_1.Address,
+                MATE_TOKEN_ADDRESS
+            ),
             0
         );
         assertEq(

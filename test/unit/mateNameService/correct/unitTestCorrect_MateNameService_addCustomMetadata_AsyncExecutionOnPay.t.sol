@@ -57,7 +57,6 @@ contract unitTestCorrect_MateNameService_addCustomMetadata_AsyncExecutionOnPay i
 
     function addBalance(
         AccountData memory user,
-        string memory username,
         uint256 priorityFeeAmount
     ) private returns (uint256 totalPriorityFeeAmount) {
         evvm._addBalance(
@@ -205,7 +204,6 @@ contract unitTestCorrect_MateNameService_addCustomMetadata_AsyncExecutionOnPay i
     function test__unit_correct__addCustomMetadata__nS_nPF() external {
         uint256 totalPriorityFeeAmount = addBalance(
             COMMON_USER_NO_STAKER_1,
-            "test",
             0
         );
 
@@ -269,7 +267,6 @@ contract unitTestCorrect_MateNameService_addCustomMetadata_AsyncExecutionOnPay i
     function test__unit_correct__addCustomMetadata__nS_PF() external {
         uint256 totalPriorityFeeAmount = addBalance(
             COMMON_USER_NO_STAKER_1,
-            "test",
             0.0001 ether
         );
 
@@ -333,7 +330,6 @@ contract unitTestCorrect_MateNameService_addCustomMetadata_AsyncExecutionOnPay i
     function test__unit_correct__addCustomMetadata__S_nPF() external {
         uint256 totalPriorityFeeAmount = addBalance(
             COMMON_USER_NO_STAKER_1,
-            "test",
             0
         );
 
@@ -396,7 +392,6 @@ contract unitTestCorrect_MateNameService_addCustomMetadata_AsyncExecutionOnPay i
     function test__unit_correct__addCustomMetadata__S_PF() external {
         uint256 totalPriorityFeeAmount = addBalance(
             COMMON_USER_NO_STAKER_1,
-            "test",
             0.0001 ether
         );
 

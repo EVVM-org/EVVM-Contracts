@@ -387,6 +387,20 @@ unitTestRevertMateNameServiceAdminFunctions:
 	@echo "Running MateNameService unit revert tests"
 	@forge test --match-path test/unit/mateNameService/revert/unitTestRevert_MateNameService_adminFunctions.t.sol --summary --detailed --gas-report -vvv --show-progress
 
+#### Fuzz tests
+
+fuzzTestMateNameServicePreRegistrationUsername:
+	@echo "Running MateNameService fuzz tests for preRegistrationUsername"
+	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_preRegistrationUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestMateNameServiceRegistrationUsername:
+	@echo "Running MateNameService fuzz tests for registrationUsername"
+	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_registrationUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestMateNameServiceAddCustomMetadata:
+	@echo "Running MateNameService fuzz tests for addCustomMetadata"
+	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_addCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
+
 ######################################################################################################
 
 
@@ -421,37 +435,6 @@ fuzzTestEvvmProxy:
 	@echo "Running EVVM fuzz tests for proxy"
 	@forge test --match-path test/fuzz/evvm/testEVVMFuzz_proxy.t.sol --summary --detailed --gas-report -vvv --show-progress
 
-fuzzTestMnsOffers:
-	@echo "Running MNS fuzz tests for offers"
-	@forge test --match-path test/fuzz/mns/testMateNameServiceFuzz_offers.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestMnsPreAndRegistrationUsername:
-	@echo "Running MNS fuzz tests for pre-registration and registration of usernames"
-	@forge test --match-path test/fuzz/mns/testMateNameServiceFuzz_preAndRegistrationUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestMnsRenewUsername:
-	@echo "Running MNS fuzz tests for renewing usernames"
-	@forge test --match-path test/fuzz/mns/testMateNameServiceFuzz_renewUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestMnsAddCustomMetadata:
-	@echo "Running MNS fuzz tests for adding custom metadata"
-	@forge test --match-path test/fuzz/mns/testMateNameServiceFuzz_addCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestMnsRemoveCustomMetadata:
-	@echo "Running MNS fuzz tests for removing custom metadata"
-	@forge test --match-path test/fuzz/mns/testMateNameServiceFuzz_removeCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestMnsFlushCustomMetadata:
-	@echo "Running MNS fuzz tests for flushing custom metadata"
-	@forge test --match-path test/fuzz/mns/testMateNameServiceFuzz_flushCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestMnsFlushUsername:
-	@echo "Running MNS fuzz tests for flushing usernames"
-	@forge test --match-path test/fuzz/mns/testMateNameServiceFuzz_flushUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestMnsAdminFunctions:
-	@echo "Running MNS fuzz tests for admin functions"
-	@forge test --match-path test/fuzz/mns/testMateNameServiceFuzz_adminFunctions.t.sol --summary --detailed --gas-report -vvv --show-progress
 
 fuzzTestSMateGoldenStaking:
 	@echo "Running sMate fuzz tests for golden staking function"
