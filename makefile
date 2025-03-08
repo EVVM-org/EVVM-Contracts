@@ -397,6 +397,18 @@ fuzzTestMateNameServiceRegistrationUsername:
 	@echo "Running MateNameService fuzz tests for registrationUsername"
 	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_registrationUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
 
+fuzzTestMateNameServiceMakeOffer:
+	@echo "Running MateNameService fuzz tests for makeOffer"
+	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_makeOffer.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestMateNameServiceWithdrawOffer:
+	@echo "Running MateNameService fuzz tests for withdrawOffer"
+	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_withdrawOffer.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestMateNameServiceAcceptOffer:
+	@echo "Running MateNameService fuzz tests for acceptOffer"
+	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_acceptOffer.t.sol --summary --detailed --gas-report -vvv --show-progress
+
 fuzzTestMateNameServiceAddCustomMetadata:
 	@echo "Running MateNameService fuzz tests for addCustomMetadata"
 	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_addCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
