@@ -409,6 +409,10 @@ fuzzTestMateNameServiceAcceptOffer:
 	@echo "Running MateNameService fuzz tests for acceptOffer"
 	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_acceptOffer.t.sol --summary --detailed --gas-report -vvv --show-progress
 
+fuzzTestMateNameServiceRenewUsername:
+	@echo "Running MateNameService fuzz tests for renewUsername"
+	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_renewUsername.t.sol --summary --detailed --gas-report -vvvv --show-progress
+
 fuzzTestMateNameServiceAddCustomMetadata:
 	@echo "Running MateNameService fuzz tests for addCustomMetadata"
 	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_addCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
