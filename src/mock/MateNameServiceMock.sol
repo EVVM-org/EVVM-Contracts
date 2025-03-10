@@ -1773,10 +1773,7 @@ contract MateNameServiceMock {
     ) public view returns (uint256 price) {
         ///verifica si es menor a 366 días
         if (identityDetails[_identity].expireDate >= block.timestamp) {
-            if (
-                usernameOffers[_identity][0].amount != 0 &&
-                usernameOffers[_identity][0].expireDate != 0
-            ) {
+            if (usernameOffers[_identity][0].expireDate != 0) {
                 ///buscamos el precio mas alto de las ofertas
                 for (
                     uint256 i = 0;
