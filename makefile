@@ -417,6 +417,18 @@ fuzzTestMateNameServiceAddCustomMetadata:
 	@echo "Running MateNameService fuzz tests for addCustomMetadata"
 	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_addCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
 
+fuzzTestMateNameServiceRemoveCustomMetadata:
+	@echo "Running MateNameService fuzz tests for removeCustomMetadata"
+	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_removeCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestMateNameServiceFlushCustomMetadata:
+	@echo "Running MateNameService fuzz tests for flushCustomMetadata"
+	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_flushCustomMetadata.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestMateNameServiceFlushUsername:
+	@echo "Running MateNameService fuzz tests for flushUsername"
+	@forge test --match-path test/fuzz/mns/fuzzTest_MateNameService_flushUsername.t.sol --summary --detailed --gas-report -vvv --show-progress
+
 ######################################################################################################
 
 

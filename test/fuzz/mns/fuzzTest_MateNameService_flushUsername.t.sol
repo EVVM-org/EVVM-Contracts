@@ -26,11 +26,9 @@ import {Erc191TestBuilder} from "@RollAMate/libraries/Erc191TestBuilder.sol";
 import {EstimatorMock} from "mock-contracts/EstimatorMock.sol";
 import {EvvmMockStorage} from "mock-contracts/EvvmMockStorage.sol";
 import {AdvancedStrings} from "@RollAMate/libraries/AdvancedStrings.sol";
+import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 
-contract unitTestCorrect_MateNameService_flushCustomMetadata_AsyncExecutionOnPay is
-    Test,
-    Constants
-{
+contract fuzzTest_MateNameService_flushUsername is Test, Constants {
     SMateMock sMate;
     EvvmMock evvm;
     EstimatorMock estimator;
@@ -53,31 +51,6 @@ contract unitTestCorrect_MateNameService_flushCustomMetadata_AsyncExecutionOnPay
             10101,
             20202
         );
-
-        makeAddCustomMetadata(
-            COMMON_USER_NO_STAKER_1,
-            "test",
-            "test>1",
-            11,
-            11,
-            true
-        );
-        makeAddCustomMetadata(
-            COMMON_USER_NO_STAKER_1,
-            "test",
-            "test>2",
-            22,
-            22,
-            true
-        );
-        makeAddCustomMetadata(
-            COMMON_USER_NO_STAKER_1,
-            "test",
-            "test>3",
-            33,
-            33,
-            true
-        );
     }
 
     function addBalance(
@@ -91,11 +64,11 @@ contract unitTestCorrect_MateNameService_flushCustomMetadata_AsyncExecutionOnPay
         evvm._addBalance(
             user.Address,
             MATE_TOKEN_ADDRESS,
-            mns.getPriceToFlushCustomMetadata(usernameToFlushCustomMetadata) +
+            mns.getPriceToFlushUsername(usernameToFlushCustomMetadata) +
                 priorityFeeAmount
         );
 
-        totalAmountFlush = mns.getPriceToFlushCustomMetadata(
+        totalAmountFlush = mns.getPriceToFlushUsername(
             usernameToFlushCustomMetadata
         );
         totalPriorityFeeAmount = priorityFeeAmount;
@@ -248,7 +221,7 @@ contract unitTestCorrect_MateNameService_flushCustomMetadata_AsyncExecutionOnPay
         );
     }
 
-    function makeFlushCustomMetadataSignatures(
+    function makeFlushUsernameSignatures(
         AccountData memory user,
         string memory username,
         uint256 nonceMNS,
@@ -266,7 +239,7 @@ contract unitTestCorrect_MateNameService_flushCustomMetadata_AsyncExecutionOnPay
 
         (v, r, s) = vm.sign(
             user.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForFlushCustomMetadata(
+            Erc191TestBuilder.buildMessageSignedForFlushUsername(
                 username,
                 nonceMNS
             )
@@ -279,7 +252,7 @@ contract unitTestCorrect_MateNameService_flushCustomMetadata_AsyncExecutionOnPay
                 address(mns),
                 "",
                 MATE_TOKEN_ADDRESS,
-                mns.getPriceToFlushCustomMetadata(username),
+                mns.getPriceToFlushUsername(username),
                 priorityFeeAmountEVVM,
                 nonceEVVM,
                 priorityFlagEVVM,
@@ -289,119 +262,73 @@ contract unitTestCorrect_MateNameService_flushCustomMetadata_AsyncExecutionOnPay
         signatureEVVM = Erc191TestBuilder.buildERC191Signature(v, r, s);
     }
 
+    function setAmountOfCustomMetadata(
+        AccountData memory user,
+        string memory username,
+        uint256 amount
+    ) private {
+        for (uint256 i = 0; i < amount; i++) {
+            makeAddCustomMetadata(
+                user,
+                username,
+                string.concat("test>", Strings.toString(i)),
+                i,
+                i,
+                true
+            );
+        }
+    }
+
     /**
      * Function to test:
-     * nS: No staker
-     * S: Staker
      * PF: Includes priority fee
      * nPF: No priority fee
      */
 
-    function test__unit_correct__flushCustomMetadata__nS_nPF() external {
-        (, uint256 totalPriorityFeeAmount) = addBalance(
-            COMMON_USER_NO_STAKER_1,
-            "test",
-            0
-        );
-
-        (
-            bytes memory signatureMNS,
-            bytes memory signatureEVVM
-        ) = makeFlushCustomMetadataSignatures(
-                COMMON_USER_NO_STAKER_1,
-                "test",
-                100010001,
-                totalPriorityFeeAmount,
-                1000001,
-                true
-            );
-
-        vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-
-        mns.flushCustomMetadata(
-            COMMON_USER_NO_STAKER_1.Address,
-            100010001,
-            "test",
-            totalPriorityFeeAmount,
-            signatureMNS,
-            1000001,
-            true,
-            signatureEVVM
-        );
-
-        vm.stopPrank();
-
-        assertEq(mns.getAmountOfCustomMetadata("test"), 0);
-
-        assertEq(
-            evvm.seeBalance(
-                COMMON_USER_NO_STAKER_1.Address,
-                MATE_TOKEN_ADDRESS
-            ),
-            0
-        );
-        assertEq(
-            evvm.seeBalance(
-                COMMON_USER_NO_STAKER_2.Address,
-                MATE_TOKEN_ADDRESS
-            ),
-            0
-        );
+    struct FlushUsernameFuzzTestInput_nPF {
+        bool usingFisher;
+        uint8 amountOfCustomMetadata;
+        uint32 nonceMNS;
+        uint32 nonceEVVM;
+        bool priorityFlagEVVM;
     }
 
-    function test__unit_correct__flushCustomMetadata__nS_PF() external {
-        (, uint256 totalPriorityFeeAmount) = addBalance(
-            COMMON_USER_NO_STAKER_1,
-            "test",
-            0.0001 ether
-        );
-
-        (
-            bytes memory signatureMNS,
-            bytes memory signatureEVVM
-        ) = makeFlushCustomMetadataSignatures(
-                COMMON_USER_NO_STAKER_1,
-                "test",
-                100010001,
-                totalPriorityFeeAmount,
-                1000001,
-                true
-            );
-
-        vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-
-        mns.flushCustomMetadata(
-            COMMON_USER_NO_STAKER_1.Address,
-            100010001,
-            "test",
-            totalPriorityFeeAmount,
-            signatureMNS,
-            1000001,
-            true,
-            signatureEVVM
-        );
-
-        vm.stopPrank();
-
-        assertEq(mns.getAmountOfCustomMetadata("test"), 0);
-
-        assertEq(
-            evvm.seeBalance(
-                COMMON_USER_NO_STAKER_1.Address,
-                MATE_TOKEN_ADDRESS
-            ),
-            0
-        );
-        assertEq(
-            evvm.seeBalance(
-                COMMON_USER_NO_STAKER_2.Address,
-                MATE_TOKEN_ADDRESS
-            ),
-            0
-        );
+    struct FlushUsernameFuzzTestInput_PF {
+        bool usingFisher;
+        uint8 amountOfCustomMetadata;
+        uint32 nonceMNS;
+        uint32 nonceEVVM;
+        uint16 priorityFeeAmountEVVM;
+        bool priorityFlagEVVM;
     }
 
-    function test__unit_correct__flushCustomMetadata__S_nPF() external {
+    function test__fuzz__flushUsername__nPF(
+        FlushUsernameFuzzTestInput_nPF memory input
+    ) external {
+        vm.assume(
+            input.nonceMNS > uint256(input.amountOfCustomMetadata) &&
+                input.nonceEVVM > uint256(input.amountOfCustomMetadata) &&
+                input.nonceMNS != 10101 &&
+                input.nonceEVVM != 10101 &&
+                input.nonceMNS != 20202 &&
+                input.nonceEVVM != 20202 &&
+                uint256(input.amountOfCustomMetadata) > 0
+        );
+
+        AccountData memory userToExecuteTx = input.usingFisher
+            ? COMMON_USER_STAKER
+            : COMMON_USER_NO_STAKER_2;
+
+        uint256 nonceEvvm = input.priorityFlagEVVM
+            ? input.nonceEVVM
+            : evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address);
+
+        setAmountOfCustomMetadata(
+            COMMON_USER_NO_STAKER_1,
+            "test",
+            input.amountOfCustomMetadata
+        );
+
         (, uint256 totalPriorityFeeAmount) = addBalance(
             COMMON_USER_NO_STAKER_1,
             "test",
@@ -411,33 +338,38 @@ contract unitTestCorrect_MateNameService_flushCustomMetadata_AsyncExecutionOnPay
         (
             bytes memory signatureMNS,
             bytes memory signatureEVVM
-        ) = makeFlushCustomMetadataSignatures(
+        ) = makeFlushUsernameSignatures(
                 COMMON_USER_NO_STAKER_1,
                 "test",
-                100010001,
+                input.nonceMNS,
                 totalPriorityFeeAmount,
-                1000001,
-                true
+                nonceEvvm,
+                input.priorityFlagEVVM
             );
 
         uint256 amountOfSlotsBefore = mns.getAmountOfCustomMetadata("test");
 
-        vm.startPrank(COMMON_USER_STAKER.Address);
+        vm.startPrank(userToExecuteTx.Address);
 
-        mns.flushCustomMetadata(
+        mns.flushUsername(
             COMMON_USER_NO_STAKER_1.Address,
-            100010001,
             "test",
             totalPriorityFeeAmount,
+            input.nonceMNS,
             signatureMNS,
-            1000001,
-            true,
+            nonceEvvm,
+            input.priorityFlagEVVM,
             signatureEVVM
         );
 
         vm.stopPrank();
 
-        assertEq(mns.getAmountOfCustomMetadata("test"), 0);
+        (address user, uint256 expireDate) = mns.getIdentityBasicMetadata(
+            "test"
+        );
+
+        assertEq(user, address(0));
+        assertEq(expireDate, 0);
 
         assertEq(
             evvm.seeBalance(
@@ -447,49 +379,81 @@ contract unitTestCorrect_MateNameService_flushCustomMetadata_AsyncExecutionOnPay
             0
         );
         assertEq(
-            evvm.seeBalance(COMMON_USER_STAKER.Address, MATE_TOKEN_ADDRESS),
+            evvm.seeBalance(userToExecuteTx.Address, MATE_TOKEN_ADDRESS),
             ((5 * evvm.seeMateReward()) * amountOfSlotsBefore) +
                 totalPriorityFeeAmount
         );
     }
 
-    function test__unit_correct__flushCustomMetadata__S_PF() external {
+    function test__fuzz__flushUsername__PF(
+        FlushUsernameFuzzTestInput_PF memory input
+    ) external {
+        vm.assume(
+            input.nonceMNS > uint256(input.amountOfCustomMetadata) &&
+                input.nonceEVVM > uint256(input.amountOfCustomMetadata) &&
+                input.nonceMNS != 10101 &&
+                input.nonceEVVM != 10101 &&
+                input.nonceMNS != 20202 &&
+                input.nonceEVVM != 20202 &&
+                uint256(input.amountOfCustomMetadata) > 0 &&
+                input.priorityFeeAmountEVVM > 0
+        );
+
+        AccountData memory userToExecuteTx = input.usingFisher
+            ? COMMON_USER_STAKER
+            : COMMON_USER_NO_STAKER_2;
+
+        uint256 nonceEvvm = input.priorityFlagEVVM
+            ? input.nonceEVVM
+            : evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address);
+
+        setAmountOfCustomMetadata(
+            COMMON_USER_NO_STAKER_1,
+            "test",
+            input.amountOfCustomMetadata
+        );
+
         (, uint256 totalPriorityFeeAmount) = addBalance(
             COMMON_USER_NO_STAKER_1,
             "test",
-            0.0001 ether
+            input.priorityFeeAmountEVVM
         );
 
         (
             bytes memory signatureMNS,
             bytes memory signatureEVVM
-        ) = makeFlushCustomMetadataSignatures(
+        ) = makeFlushUsernameSignatures(
                 COMMON_USER_NO_STAKER_1,
                 "test",
-                100010001,
+                input.nonceMNS,
                 totalPriorityFeeAmount,
-                1000001,
-                true
+                nonceEvvm,
+                input.priorityFlagEVVM
             );
 
         uint256 amountOfSlotsBefore = mns.getAmountOfCustomMetadata("test");
 
-        vm.startPrank(COMMON_USER_STAKER.Address);
+        vm.startPrank(userToExecuteTx.Address);
 
-        mns.flushCustomMetadata(
+        mns.flushUsername(
             COMMON_USER_NO_STAKER_1.Address,
-            100010001,
             "test",
             totalPriorityFeeAmount,
+            input.nonceMNS,
             signatureMNS,
-            1000001,
-            true,
+            nonceEvvm,
+            input.priorityFlagEVVM,
             signatureEVVM
         );
 
         vm.stopPrank();
 
-        assertEq(mns.getAmountOfCustomMetadata("test"), 0);
+        (address user, uint256 expireDate) = mns.getIdentityBasicMetadata(
+            "test"
+        );
+
+        assertEq(user, address(0));
+        assertEq(expireDate, 0);
 
         assertEq(
             evvm.seeBalance(
@@ -499,7 +463,7 @@ contract unitTestCorrect_MateNameService_flushCustomMetadata_AsyncExecutionOnPay
             0
         );
         assertEq(
-            evvm.seeBalance(COMMON_USER_STAKER.Address, MATE_TOKEN_ADDRESS),
+            evvm.seeBalance(userToExecuteTx.Address, MATE_TOKEN_ADDRESS),
             ((5 * evvm.seeMateReward()) * amountOfSlotsBefore) +
                 totalPriorityFeeAmount
         );
