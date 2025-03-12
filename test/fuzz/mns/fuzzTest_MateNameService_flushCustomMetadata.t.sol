@@ -1,16 +1,21 @@
-// SPDX-License-Identifier: MIT
+// Copyright (c) 2025 GERMAN MARIA ABAL BAZZANO
+// License: EVVM Noncommercial License v1.0 (see LICENSE file)
 
 /**
- ____ ____ ____ ____ _________ ____ ____ ____ ____ 
-||U |||N |||I |||T |||       |||T |||E |||S |||T ||
-||__|||__|||__|||__|||_______|||__|||__|||__|||__||
-|/__\|/__\|/__\|/__\|/_______\|/__\|/__\|/__\|/__\|
+
+:::::::::: :::    ::: ::::::::: :::::::::      ::::::::::: :::::::::: :::::::: ::::::::::: 
+:+:        :+:    :+:      :+:       :+:           :+:     :+:       :+:    :+:    :+:     
++:+        +:+    +:+     +:+       +:+            +:+     +:+       +:+           +:+     
+:#::+::#   +#+    +:+    +#+       +#+             +#+     +#++:++#  +#++:++#++    +#+     
++#+        +#+    +#+   +#+       +#+              +#+     +#+              +#+    +#+     
+#+#        #+#    #+#  #+#       #+#               #+#     #+#       #+#    #+#    #+#     
+###         ########  ######### #########          ###     ########## ########     ###     
+
 
  * @title unit test for EVVM function correct behavior
  * @notice some functions has evvm functions that are implemented
  *         for payment and dosent need to be tested here
  */
-
 pragma solidity ^0.8.0;
 pragma abicoder v2;
 
