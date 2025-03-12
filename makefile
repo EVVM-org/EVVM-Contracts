@@ -157,6 +157,27 @@ unitTestRevertEvvmProxy:
 	@echo "Running EVVM proxy unit revert tests"
 	@forge test --match-path test/unit/evvm/revert/unitTestRevert_EVVM_proxy.t.sol --summary --detailed --gas-report -vvv --show-progress
 
+### Fuzz tests
+
+unitTestFuzzEvvm:
+	@echo "Running all EVVM unit fuzz tests"
+	@forge test --match-contract unitTestFuzz_EVVM --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestEvvmPayNoMateStaking_sync:
+	@echo "Running NoMateStaking_sync unit fuzz tests"
+	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_payNoMateStaking_sync.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestEvvmPayNoMateStaking_async:
+	@echo "Running NoMateStaking_async unit fuzz tests"
+	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_payNoMateStaking_async.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestEvvmPayMateStaking_sync:
+	@echo "Running PayMateStaking_sync unit fuzz tests"
+	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_payMateStaking_sync.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestEvvmPayMateStaking_async:
+	@echo "Running PayMateStaking_async unit fuzz tests"
+	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_payMateStaking_async.t.sol --summary --detailed --gas-report -vvv --show-progress
 ## SMate
 
 ### Unit tests
@@ -431,54 +452,6 @@ fuzzTestMateNameServiceFlushUsername:
 
 ######################################################################################################
 
-
-
-
-# Fuzz test commands
-fuzzTestEvvmPayMultiple:
-	@echo "Running EVVM fuzz tests for payMultiple"
-	@forge test --match-path test/fuzz/evvm/testEVVMFuzz_payMultiple.t.sol --summary --detailed --gas-report -vvv --show-progress 
-
-fuzzTestEvvmDispersePay:
-	@echo "Running EVVM fuzz tests for dispersePay"
-	@forge test --match-path test/fuzz/evvm/testEVVMFuzz_dispersePay.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestEvvmPay:
-	@echo "Running EVVM fuzz tests for pay"
-	@forge test --match-path test/fuzz/evvm/testEVVMFuzz_pay.t.sol --summary --detailed --gas-report -vvv --show-progress 
-
-fuzzTestEvvmCaPay:
-	@echo "Running EVVM fuzz tests for caPay"
-	@forge test --match-path test/fuzz/evvm/testEVVMFuzz_caPay.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestEvvmDisperseCaPay:
-	@echo "Running EVVM fuzz tests for disperseCaPay"
-	@forge test --match-path test/fuzz/evvm/testEVVMFuzz_disperseCaPay.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestEvvmAdminFunctions:
-	@echo "Running EVVM fuzz tests for admin functions"
-	@forge test --match-path test/fuzz/evvm/testEVVMFuzz_adminFunctions.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestEvvmProxy:
-	@echo "Running EVVM fuzz tests for proxy"
-	@forge test --match-path test/fuzz/evvm/testEVVMFuzz_proxy.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-
-fuzzTestSMateGoldenStaking:
-	@echo "Running sMate fuzz tests for golden staking function"
-	@forge test --match-path test/fuzz/sMate/testSMateFuzz_goldenStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestSMatePresaleStake:
-	@echo "Running sMate fuzz tests for presale stake function"
-	@forge test --match-path test/fuzz/sMate/testSMateFuzz_presaleStake.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestSMateExternalStaking:
-	@echo "Running sMate fuzz tests for external staking function"
-	@forge test --match-path test/fuzz/sMate/testSMateFuzz_externalStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
-
-fuzzTestEstimator:
-	@echo "Running estimator fuzz tests"
-	@forge test --match-path test/fuzz/sMate/testEstimatorFuzz.t.sol --summary --detailed --gas-report -vvv --show-progress
 
 # Other commands
 staticAnalysis:
