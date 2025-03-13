@@ -178,6 +178,11 @@ fuzzTestEvvmPayMateStaking_sync:
 fuzzTestEvvmPayMateStaking_async:
 	@echo "Running PayMateStaking_async unit fuzz tests"
 	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_payMateStaking_async.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestEvvmPayMultiple:
+	@echo "Running PayMultiple unit fuzz tests"
+	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_payMultiple.t.sol --summary --detailed --gas-report -vvv --show-progress
+
 ## SMate
 
 ### Unit tests
