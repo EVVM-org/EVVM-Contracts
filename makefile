@@ -183,6 +183,13 @@ fuzzTestEvvmPayMultiple:
 	@echo "Running PayMultiple unit fuzz tests"
 	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_payMultiple.t.sol --summary --detailed --gas-report -vvv --show-progress
 
+fuzzTestEvvmDispersePay:
+	@echo "Running DispersePay unit fuzz tests"
+	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_dispersePay.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestEvvmCaPay:
+	@echo "Running CaPay unit fuzz tests"
+	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_caPay.t.sol --summary --detailed --gas-report -vvv --show-progress
 ## SMate
 
 ### Unit tests
