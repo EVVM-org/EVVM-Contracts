@@ -190,6 +190,11 @@ fuzzTestEvvmDispersePay:
 fuzzTestEvvmCaPay:
 	@echo "Running CaPay unit fuzz tests"
 	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_caPay.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestEvvmDisperseCaPay:
+	@echo "Running DisperseCaPay unit fuzz tests"
+	@forge test --match-path test/fuzz/evvm/fuzzTest_EVVM_disperseCaPay.t.sol --summary --detailed --gas-report -vvv --show-progress
+
 ## SMate
 
 ### Unit tests
