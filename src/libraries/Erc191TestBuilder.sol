@@ -286,7 +286,7 @@ library Erc191TestBuilder {
     // sMate functions
     //-----------------------------------------------------------------------------------
 
-    function buildMessageSignedForExternalStaking(
+    function buildMessageSignedForPublicStaking(
         bool _isStaking,
         uint256 _amountOfSMate,
         uint256 _nonce
@@ -294,7 +294,7 @@ library Erc191TestBuilder {
         return
             buildHashForSign(
                 string.concat(
-                    "cedc1483",
+                    "21cc1749",
                     ",",
                     _isStaking ? "true" : "false",
                     ",",
@@ -305,7 +305,7 @@ library Erc191TestBuilder {
             );
     }
 
-    function buildMessageSignedForPresaleStake(
+    function buildMessageSignedForPresaleStaking(
         bool _isStaking,
         uint256 _amountOfSMate,
         uint256 _nonce
@@ -313,7 +313,7 @@ library Erc191TestBuilder {
         return
             buildHashForSign(
                 string.concat(
-                    "0db15a80",
+                    "6257deec",
                     ",",
                     _isStaking ? "true" : "false",
                     ",",

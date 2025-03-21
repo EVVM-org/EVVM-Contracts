@@ -241,103 +241,103 @@ contract unitTestRevert_SMate_adminFunctions is Test, Constants {
         vm.stopPrank();
     }
 
-    function test__unitRevert__prepareSetAllowExternalStaking__nonOwner()
+    function test__unitRevert__prepareChangeAllowPublicStaking__nonOwner()
         external
     {
         vm.startPrank(WILDCARD_USER.Address);
         vm.expectRevert();
-        sMate.prepareSetAllowExternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         vm.stopPrank();
     }
 
-    function test__unitRevert__cancelSetAllowExternalStaking__nonOwner()
+    function test__unitRevert__cancelChangeAllowPublicStaking__nonOwner()
         external
     {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowExternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         vm.stopPrank();
 
         vm.warp(block.timestamp + 2 hours);
 
         vm.startPrank(WILDCARD_USER.Address);
         vm.expectRevert();
-        sMate.cancelSetAllowExternalStaking();
+        sMate.cancelChangeAllowPublicStaking();
         vm.stopPrank();
     }
 
-    function test__unitRevert__confirmSetAllowExternalStaking__nonOwner()
+    function test__unitRevert__confirmChangeAllowPublicStaking__nonOwner()
         external
     {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowExternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         vm.stopPrank();
 
         vm.warp(block.timestamp + 1 days + 1);
 
         vm.startPrank(WILDCARD_USER.Address);
         vm.expectRevert();
-        sMate.confirmSetAllowExternalStaking();
+        sMate.confirmChangeAllowPublicStaking();
         vm.stopPrank();
     }
 
-    function test__unitRevert__confirmSetAllowExternalStaking__notInTime()
+    function test__unitRevert__confirmChangeAllowPublicStaking__notInTime()
         external
     {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowExternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         vm.warp(block.timestamp + 10 hours);
         vm.expectRevert();
-        sMate.confirmSetAllowExternalStaking();
+        sMate.confirmChangeAllowPublicStaking();
         vm.stopPrank();
     }
 
-    function test__unitRevert__prepareSetAllowInternalStaking__nonOwner()
+    function test__unitRevert__prepareChangeAllowPresaleStaking__nonOwner()
         external
     {
         vm.startPrank(WILDCARD_USER.Address);
         vm.expectRevert();
-        sMate.prepareSetAllowInternalStaking();
+        sMate.prepareChangeAllowPresaleStaking();
         vm.stopPrank();
     }
 
-    function test__unitRevert__cancelSetAllowInternalStaking__nonOwner()
+    function test__unitRevert__cancelChangeAllowPresaleStaking__nonOwner()
         external
     {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowInternalStaking();
+        sMate.prepareChangeAllowPresaleStaking();
         vm.stopPrank();
 
         vm.warp(block.timestamp + 2 hours);
 
         vm.startPrank(WILDCARD_USER.Address);
         vm.expectRevert();
-        sMate.cancelSetAllowInternalStaking();
+        sMate.cancelChangeAllowPresaleStaking();
         vm.stopPrank();
     }
 
-    function test__unitRevert__confirmSetAllowInternalStaking__nonOwner()
+    function test__unitRevert__confirmChangeAllowPresaleStaking__nonOwner()
         external
     {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowInternalStaking();
+        sMate.prepareChangeAllowPresaleStaking();
         vm.stopPrank();
 
         vm.warp(block.timestamp + 1 days + 1);
 
         vm.startPrank(WILDCARD_USER.Address);
         vm.expectRevert();
-        sMate.confirmSetAllowInternalStaking();
+        sMate.confirmChangeAllowPresaleStaking();
         vm.stopPrank();
     }
 
-    function test__unitRevert__confirmSetAllowInternalStaking__notInTime()
+    function test__unitRevert__confirmChangeAllowPresaleStaking__notInTime()
         external
     {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowInternalStaking();
+        sMate.prepareChangeAllowPresaleStaking();
         vm.warp(block.timestamp + 10 hours);
         vm.expectRevert();
-        sMate.confirmSetAllowInternalStaking();
+        sMate.confirmChangeAllowPresaleStaking();
         vm.stopPrank();
     }
 }

@@ -209,21 +209,21 @@ unitTestCorrectSMateGoldenStaking:
 	@echo "Running GoldenStaking unit correct tests"
 	@forge test --match-path test/unit/smate/correct/unitTestCorrect_SMate_goldenStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
 
-unitTestCorrectSMatePresaleStake_AsyncExecutionOnPay:
-	@echo "Running PresaleStake (async execution on pay) unit correct tests"
-	@forge test --match-path test/unit/smate/correct/unitTestCorrect_SMate_presaleStake_AsyncExecutionOnPay.t.sol --summary --detailed --gas-report -vvv --show-progress
+unitTestCorrectSMatePresaleStaking_AsyncExecutionOnPay:
+	@echo "Running PresaleStaking (async execution on pay) unit correct tests"
+	@forge test --match-path test/unit/smate/correct/unitTestCorrect_SMate_presaleStaking_AsyncExecutionOnPay.t.sol --summary --detailed --gas-report -vvv --show-progress
 
-unitTestCorrectSMatePresaleStake_SyncExecutionOnPay:
-	@echo "Running PresaleStake (sync execution on pay) unit correct tests"
-	@forge test --match-path test/unit/smate/correct/unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay.t.sol --summary --detailed --gas-report -vvv --show-progress
+unitTestCorrectSMatePresaleStaking_SyncExecutionOnPay:
+	@echo "Running PresaleStaking (sync execution on pay) unit correct tests"
+	@forge test --match-path test/unit/smate/correct/unitTestCorrect_SMate_presaleStaking_SyncExecutionOnPay.t.sol --summary --detailed --gas-report -vvv --show-progress
 
-unitTestCorrectSMateExternalStaking_AsyncExecutionOnPay:
-	@echo "Running ExternalStaking (async execution on pay) unit correct tests"
-	@forge test --match-path test/unit/smate/correct/unitTestCorrect_SMate_externalStaking_AsyncExecutionOnPay.t.sol --summary --detailed --gas-report -vvv --show-progress
+unitTestCorrectSMatePublicStaking_AsyncExecutionOnPay:
+	@echo "Running PublicStaking (async execution on pay) unit correct tests"
+	@forge test --match-path test/unit/smate/correct/unitTestCorrect_SMate_publicStaking_AsyncExecutionOnPay.t.sol --summary --detailed --gas-report -vvv --show-progress
 
-unitTestCorrectSMateExternalStaking_SyncExecutionOnPay:
-	@echo "Running ExternalStaking (sync execution on pay) unit correct tests"
-	@forge test --match-path test/unit/smate/correct/unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay.t.sol --summary --detailed --gas-report -vvv --show-progress
+unitTestCorrectSMatePublicStaking_SyncExecutionOnPay:
+	@echo "Running PublicStaking (sync execution on pay) unit correct tests"
+	@forge test --match-path test/unit/smate/correct/unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay.t.sol --summary --detailed --gas-report -vvv --show-progress
 
 unitTestCorrectSMateAdminFunctions:
 	@echo "Running AdminFunctions unit correct tests"
@@ -239,13 +239,13 @@ unitTestRevertSMateGoldenStaking:
 	@echo "Running GoldenStaking unit revert tests"
 	@forge test --match-path test/unit/smate/revert/unitTestRevert_SMate_goldenStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
 
-unitTestRevertSMatePresaleStake:
-	@echo "Running PresaleStake unit revert tests"
-	@forge test --match-path test/unit/smate/revert/unitTestRevert_SMate_presaleStake.t.sol --summary --detailed --gas-report -vvv --show-progress
+unitTestRevertSMatePresaleStaking:
+	@echo "Running PresaleStaking unit revert tests"
+	@forge test --match-path test/unit/smate/revert/unitTestRevert_SMate_presaleStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
 
-unitTestRevertSMateExternalStaking:
-	@echo "Running ExternalStaking unit revert tests"
-	@forge test --match-path test/unit/smate/revert/unitTestRevert_SMate_externalStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
+unitTestRevertSMatePublicStaking:
+	@echo "Running PublicStaking unit revert tests"
+	@forge test --match-path test/unit/smate/revert/unitTestRevert_SMate_publicStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
 
 unitTestRevertSMateAdminFunctions:
 	@echo "Running AdminFunctions unit revert tests"

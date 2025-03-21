@@ -43,13 +43,6 @@ contract unitTestCorrect_SMate_adminFunctions is
 
         evvm._setPointStaker(COMMON_USER_STAKER.Address, 0x01);
 
-        vm.startPrank(ADMIN.Address);
-
-        sMate.prepareSetAllowExternalStaking();
-        skip(1 days);
-        sMate.confirmSetAllowExternalStaking();
-
-        vm.stopPrank();
     }
 
     function test__unit_correct__admin_addPresaleStaker() external {
@@ -158,47 +151,47 @@ contract unitTestCorrect_SMate_adminFunctions is
         vm.stopPrank();
     }
 
-    function test__unit_correct__admin_prepareSetAllowExternalStaking() external {
+    function test__unit_correct__admin_prepareChangeAllowPublicStaking() external {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowExternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         vm.stopPrank();
     }
 
-    function test__unit_correct__admin_cancelSetAllowExternalStaking() external {
+    function test__unit_correct__admin_cancelChangeAllowPublicStaking() external {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowExternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         vm.warp(block.timestamp + 2 hours);
-        sMate.cancelSetAllowExternalStaking();
+        sMate.cancelChangeAllowPublicStaking();
         vm.stopPrank();
     }
 
-    function test__unit_correct__admin_confirmSetAllowExternalStaking() external {
+    function test__unit_correct__admin_confirmChangeAllowPublicStaking() external {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowExternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         vm.warp(block.timestamp + 1 days + 1);
-        sMate.confirmSetAllowExternalStaking();
+        sMate.confirmChangeAllowPublicStaking();
         vm.stopPrank();
     }
 
-    function test__unit_correct__admin_prepareSetAllowInternalStaking() external {
+    function test__unit_correct__admin_prepareChangeAllowPresaleStaking() external {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowInternalStaking();
+        sMate.prepareChangeAllowPresaleStaking();
         vm.stopPrank();
     }
 
-    function test__unit_correct__admin_cancelSetAllowInternalStaking() external {
+    function test__unit_correct__admin_cancelChangeAllowPresaleStaking() external {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowInternalStaking();
+        sMate.prepareChangeAllowPresaleStaking();
         vm.warp(block.timestamp + 2 hours);
-        sMate.cancelSetAllowInternalStaking();
+        sMate.cancelChangeAllowPresaleStaking();
         vm.stopPrank();
     }
 
-    function test__unit_correct__admin_confirmSetAllowInternalStaking() external {
+    function test__unit_correct__admin_confirmChangeAllowPresaleStaking() external {
         vm.startPrank(ADMIN.Address);
-        sMate.prepareSetAllowInternalStaking();
+        sMate.prepareChangeAllowPresaleStaking();
         vm.warp(block.timestamp + 1 days + 1);
-        sMate.confirmSetAllowInternalStaking();
+        sMate.confirmChangeAllowPresaleStaking();
         vm.stopPrank();
     }
 }

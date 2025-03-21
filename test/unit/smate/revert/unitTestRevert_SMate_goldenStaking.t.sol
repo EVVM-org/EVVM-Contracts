@@ -39,14 +39,6 @@ contract unitTestRevert_SMate_goldenStaking is Test, Constants {
         mns = MateNameServiceMock(evvm.getMateNameServiceAddress());
 
         evvm._setPointStaker(COMMON_USER_STAKER.Address, 0x01);
-
-        /*vm.startPrank(ADMIN.Address);
-
-        sMate.prepareSetAllowExternalStaking();
-        skip(1 days);
-        sMate.confirmSetAllowExternalStaking();
-
-        vm.stopPrank();*/
     }
 
     function giveMateToExecute(
@@ -114,7 +106,7 @@ contract unitTestRevert_SMate_goldenStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 isStaking,
                 amountOfSmate,
                 nonceSmate
@@ -173,7 +165,10 @@ contract unitTestRevert_SMate_goldenStaking is Test, Constants {
 
         assert(!evvm.isMateStaker(COMMON_USER_NO_STAKER_1.Address));
         assertEq(
-            evvm.seeBalance(COMMON_USER_NO_STAKER_1.Address, MATE_TOKEN_ADDRESS),
+            evvm.seeBalance(
+                COMMON_USER_NO_STAKER_1.Address,
+                MATE_TOKEN_ADDRESS
+            ),
             totalOfMate + totalOfPriorityFee
         );
     }
@@ -578,7 +573,9 @@ contract unitTestRevert_SMate_goldenStaking is Test, Constants {
         );
     }
 
-    function test__unitRevert__goldenStaking__notInTimeToFullUnstake() external {
+    function test__unitRevert__goldenStaking__notInTimeToFullUnstake()
+        external
+    {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             GOLDEN_STAKER.Address,
             10,
@@ -620,7 +617,9 @@ contract unitTestRevert_SMate_goldenStaking is Test, Constants {
         );
     }
 
-    function test__unitRevert__goldenStaking__unstakeIsMoreThanStake() external {
+    function test__unitRevert__goldenStaking__unstakeIsMoreThanStake()
+        external
+    {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             GOLDEN_STAKER.Address,
             10,
@@ -713,5 +712,4 @@ contract unitTestRevert_SMate_goldenStaking is Test, Constants {
             getAmountOfRewardsPerExecution(1) + totalOfMate
         );
     }
-    
 }

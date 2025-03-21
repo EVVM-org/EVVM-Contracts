@@ -26,7 +26,7 @@ import {Erc191TestBuilder} from "@RollAMate/libraries/Erc191TestBuilder.sol";
 import {EstimatorMock} from "mock-contracts/EstimatorMock.sol";
 import {EvvmMockStorage} from "mock-contracts/EvvmMockStorage.sol";
 
-contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
+contract unitTestCorrect_SMate_presaleStaking_SyncExecutionOnPay is
     Test,
     Constants
 {
@@ -45,9 +45,9 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
 
         vm.startPrank(ADMIN.Address);
 
-        sMate.prepareSetAllowInternalStaking();
+        sMate.prepareChangeAllowPresaleStaking();
         skip(1 days);
-        sMate.confirmSetAllowInternalStaking();
+        sMate.confirmChangeAllowPresaleStaking();
 
         sMate.addPresaleStaker(COMMON_USER_NO_STAKER_1.Address);
         vm.stopPrank();
@@ -117,7 +117,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 isStaking,
                 1,
                 nonceSmate
@@ -140,7 +140,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
      * PF: Includes priority fee
      */
 
-    function test__unit_correct__presaleStake_AsyncExecution__stake_nS_nPF()
+    function test__unit_correct__presaleStaking_AsyncExecution__stake_nS_nPF()
         external
     {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
@@ -170,7 +170,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1000001000001
@@ -183,7 +183,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1000001000001,
@@ -216,7 +216,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 1);
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__stake_nS_PF()
+    function test__unit_correct__presaleStaking_AsyncExecution__stake_nS_PF()
         external
     {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
@@ -246,7 +246,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1000001000001
@@ -259,7 +259,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1000001000001,
@@ -292,7 +292,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 1);
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__unstake_nS_nPF()
+    function test__unit_correct__presaleStaking_AsyncExecution__unstake_nS_nPF()
         external
     {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
@@ -313,7 +313,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             100,
@@ -334,7 +334,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             101,
@@ -355,7 +355,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             102,
@@ -400,7 +400,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         assertEq(history[2].totalStaked, 1);
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__fullUnstake_nS_nPF()
+    function test__unit_correct__presaleStaking_AsyncExecution__fullUnstake_nS_nPF()
         external
     {
         giveMateToExecute(COMMON_USER_NO_STAKER_1.Address, 2, 0);
@@ -417,7 +417,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             100,
@@ -438,7 +438,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             101,
@@ -459,7 +459,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             102,
@@ -482,7 +482,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             103,
@@ -541,7 +541,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         assertEq(history[3].totalStaked, 0);
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__fullUnstake_nS_PF()
+    function test__unit_correct__presaleStaking_AsyncExecution__fullUnstake_nS_PF()
         external
     {
         giveMateToExecute(COMMON_USER_NO_STAKER_1.Address, 2, 0.004 ether);
@@ -558,7 +558,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             100,
@@ -581,7 +581,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             101,
@@ -604,7 +604,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             102,
@@ -629,7 +629,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             103,
@@ -690,7 +690,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         assertEq(history[3].totalStaked, 0);
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__stake_S_nPF()
+    function test__unit_correct__presaleStaking_AsyncExecution__stake_S_nPF()
         external
     {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
@@ -720,7 +720,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1000001000001
@@ -733,7 +733,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1000001000001,
@@ -771,7 +771,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 1);
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__stake_S_PF()
+    function test__unit_correct__presaleStaking_AsyncExecution__stake_S_PF()
         external
     {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
@@ -801,7 +801,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1000001000001
@@ -814,7 +814,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1000001000001,
@@ -852,7 +852,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 1);
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__unstake_S_nPF()
+    function test__unit_correct__presaleStaking_AsyncExecution__unstake_S_nPF()
         external
     {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
@@ -873,7 +873,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             100,
@@ -894,7 +894,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             101,
@@ -915,7 +915,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             102,
@@ -958,7 +958,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         assertEq(history[2].totalStaked, 1);
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__fullUnstake_S_nPF()
+    function test__unit_correct__presaleStaking_AsyncExecution__fullUnstake_S_nPF()
         external
     {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
@@ -979,7 +979,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             100,
@@ -1000,7 +1000,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             101,
@@ -1021,7 +1021,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             102,
@@ -1048,7 +1048,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         console.log(evvm.seeBalance(address(sMate), MATE_TOKEN_ADDRESS));
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             103,
@@ -1101,7 +1101,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         assertEq(history[3].totalStaked, 0);
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__fullUnstake_S_PF()
+    function test__unit_correct__presaleStaking_AsyncExecution__fullUnstake_S_PF()
         external
     {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
@@ -1122,7 +1122,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             100,
@@ -1145,7 +1145,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             101,
@@ -1168,7 +1168,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             102,
@@ -1193,7 +1193,7 @@ contract unitTestCorrect_SMate_presaleStake_SyncExecutionOnPay is
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             103,

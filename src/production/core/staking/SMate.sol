@@ -58,6 +58,11 @@ contract SMate {
         uint256 timeToAccept;
     }
 
+    struct BoolTypeProposal {
+        bool flag;
+        uint256 timeToAccept;
+    }
+
     address private immutable EVVM_ADDRESS;
     address private immutable ESTIMATOR_ADDRESS;
 
@@ -69,15 +74,11 @@ contract SMate {
     AddressTypeProposal private goldenFisher;
     UintTypeProposal private secondsToUnlockStaking;
     UintTypeProposal private secondsToUnllockFullUnstaking;
+    BoolTypeProposal private allowPresaleStaking;
+    BoolTypeProposal private allowPublicStaking;
 
     address private constant MATE_TOKEN_ADDRESS =
         0x0000000000000000000000000000000000000001;
-
-    bool private allowExternalStaking;
-    uint256 private allowExternalStaking_Time;
-
-    bool private allowInternalStaking;
-    uint256 private allowInternalStaking_Time;
 
     mapping(address => mapping(uint256 => bool)) private stakingNonce;
 
@@ -126,8 +127,8 @@ contract SMate {
 
         goldenFisher.actual = 0x63c3774531EF83631111Fe2Cf01520Fb3F5A68F7;
 
-        allowExternalStaking = false;
-        allowInternalStaking = false;
+        allowPublicStaking.flag = false;
+        allowPresaleStaking.flag = false;
 
         secondsToUnlockStaking.actual = 0;
 
@@ -166,15 +167,15 @@ contract SMate {
     }
 
     /*
-        presaleStake accede a un mapping que se cargará al 
+        presaleStaking accede a un mapping que se cargará al 
         inicializar el contrato y se puede alimentar de 
         entradas únicamente por el contract owner, con un 
         máximo de 800 entradas hardcodeado por código (el 800), 
-        revisa presaleClaims y si procede llama a internalStaking.
+        revisa presaleClaims y si procede llama a presaleInternalExecution.
      */
 
     /**
-     *  @dev presaleStake allows the presale users to make a stakingProcess.
+     *  @dev presaleStaking allows the presale users to make a stakingProcess.
      *  @param _isStaking boolean to check if the user is staking or unstaking
      *  @param _user user address of the user that wants to stake/unstake
      *  @param _nonce nonce for the SMate contract
@@ -186,7 +187,7 @@ contract SMate {
      *
      *  @notice the presale users can only take 2 SMate tokens, and only one at a time
      */
-    function presaleStake(
+    function presaleStaking(
         bool _isStaking,
         address _user,
         uint256 _nonce,
@@ -214,10 +215,9 @@ contract SMate {
 
         presaleClaims(_isStaking, _user);
 
-        internalStaking(
+        presaleInternalExecution(
             _isStaking,
             _user,
-            1,
             _priorityFee_Evvm,
             _priority_Evvm,
             _nonce_Evvm,
@@ -229,11 +229,11 @@ contract SMate {
 
     /*
         presaleClaims administra el mapping (o datos del tipo que sea) 
-        donde se determina que un address incluida en el presaleStake 
+        donde se determina que un address incluida en el presaleStaking 
         solo puede hacer 2 stakings de 5083 MATE, o sea obtener 2 sMATE, 
         si hace staking suma 1 (siempre que tenga slots) y si hace 
         unstaking resta 1. Esta función dejará de usarse cuando 
-        externalStaking pase a ser (1), o sea cuando el protocolo 
+        publicStaking pase a ser (1), o sea cuando el protocolo 
         quede abierto.
      */
 
@@ -243,7 +243,9 @@ contract SMate {
      *  @param _user user address of the user that wants to stake/unstake
      */
     function presaleClaims(bool _isStaking, address _user) internal {
-        if (!allowExternalStaking) {
+        if (allowPublicStaking.flag) {
+            revert();
+        } else {
             if (userPresaleStaker[_user].isStaker) {
                 if (_isStaking) {
                     // staking
@@ -264,45 +266,41 @@ contract SMate {
             } else {
                 revert();
             }
-        } else {
-            revert();
         }
     }
 
     /*
-        internalStaking función del stake que puede ser llamada únicamente 
+        presaleInternalExecution función del stake que puede ser llamada únicamente 
         de forma interna y ejecuta un stakingProcess si está activada 
         (valor 1), al incializarse el contrato está en valor 0.
      */
 
     /**
-     * @dev internalStaking allows the contract to make a stakingProcess.
+     * @dev presaleInternalExecution allows the contract to make a stakingProcess.
      * @param _isStaking boolean to check if the user is staking or unstaking
      * @param _user user address of the user that wants to stake/unstake
-     * @param _amountOfSMate amount of sMATE to stake/unstake
      * @param _priorityFee_Evvm priority fee for the Evvm contract
      * @param _priority_Evvm priority for the Evvm contract (true for async, false for sync)
      * @param _nonce_Evvm nonce for the Evvm contract // staking or unstaking
      * @param _signature_Evvm signature for the Evvm contract // staking or unstaking
      *
-     * @notice only can stake if allowInternalStaking is set to open (true)
+     * @notice only can stake if allowPresaleStaking.flag is set to open (true)
      */
-    function internalStaking(
+    function presaleInternalExecution(
         bool _isStaking,
         address _user,
-        uint256 _amountOfSMate,
         uint256 _priorityFee_Evvm,
         bool _priority_Evvm,
         uint256 _nonce_Evvm,
         bytes memory _signature_Evvm
     ) internal {
-        if (!allowInternalStaking) {
+        if (!allowPresaleStaking.flag) {
             revert();
         }
         stakingProcess(
             _isStaking,
             _user,
-            _amountOfSMate,
+            1,
             _priorityFee_Evvm,
             _nonce_Evvm,
             _priority_Evvm,
@@ -311,12 +309,12 @@ contract SMate {
     }
 
     /*
-        externalStaking función del stake que puede ser llamada 
+        publicStaking función del stake que puede ser llamada 
         de forma externa por cualquiera a partir de que se abra 
         (valor 1), al inicializarse el contrato está en valor 0.
     */
     /**
-     *  @dev externalStaking allows the users to make a stakingProcess.
+     *  @dev publicStaking allows the users to make a stakingProcess.
      *  @param _isStaking boolean to check if the user is staking or unstaking
      *  @param _user user address of the user that wants to stake/unstake
      *  @param _nonce nonce for the SMate contract
@@ -327,7 +325,7 @@ contract SMate {
      *  @param _priority_Evvm priority for the Evvm contract (true for async, false for sync) // staking or unstaking
      *  @param _signature_Evvm signature for the Evvm contract // staking or unstaking
      */
-    function externalStaking(
+    function publicStaking(
         bool _isStaking,
         address _user,
         uint256 _nonce,
@@ -338,7 +336,7 @@ contract SMate {
         bool _priority_Evvm,
         bytes memory _signature_Evvm
     ) external {
-        if (!allowExternalStaking) {
+        if (!allowPublicStaking.flag) {
             revert();
         }
 
@@ -501,11 +499,9 @@ contract SMate {
     function tillClosure(
         address user
     ) external returns (bool answer, uint256 calculation) {
-        
         (answer, calculation) = Estimator(ESTIMATOR_ADDRESS).makeEstimation(
             userHistory[user]
         );
-        
 
         if (!answer) {
             revert();
@@ -678,34 +674,40 @@ contract SMate {
         secondsToUnllockFullUnstaking.timeToAccept = 0;
     }
 
-    function prepareSetAllowExternalStaking() external onlyOwner {
-        allowExternalStaking_Time = block.timestamp + 1 days;
+    function prepareChangeAllowPublicStaking() external onlyOwner {
+        allowPublicStaking.timeToAccept = block.timestamp + 1 days;
     }
 
-    function cancelSetAllowExternalStaking() external onlyOwner {
-        allowExternalStaking_Time = 0;
+    function cancelChangeAllowPublicStaking() external onlyOwner {
+        allowPublicStaking.timeToAccept = 0;
     }
 
-    function confirmSetAllowExternalStaking() external onlyOwner {
-        if (allowExternalStaking_Time > block.timestamp) {
+    function confirmChangeAllowPublicStaking() external onlyOwner {
+        if (allowPublicStaking.timeToAccept > block.timestamp) {
             revert();
         }
-        allowExternalStaking = !allowExternalStaking;
+        allowPublicStaking = BoolTypeProposal({
+            flag: !allowPublicStaking.flag,
+            timeToAccept: 0
+        });
     }
 
-    function prepareSetAllowInternalStaking() external onlyOwner {
-        allowInternalStaking_Time = block.timestamp + 1 days;
+    function prepareChangeAllowPresaleStaking() external onlyOwner {
+        allowPresaleStaking.timeToAccept = block.timestamp + 1 days;
     }
 
-    function cancelSetAllowInternalStaking() external onlyOwner {
-        allowInternalStaking_Time = 0;
+    function cancelChangeAllowPresaleStaking() external onlyOwner {
+        allowPresaleStaking.timeToAccept = 0;
     }
 
-    function confirmSetAllowInternalStaking() external onlyOwner {
-        if (allowInternalStaking_Time > block.timestamp) {
+    function confirmChangeAllowPresaleStaking() external onlyOwner {
+        if (allowPresaleStaking.timeToAccept > block.timestamp) {
             revert();
         }
-        allowInternalStaking = !allowInternalStaking;
+        allowPresaleStaking = BoolTypeProposal({
+            flag: !allowPresaleStaking.flag,
+            timeToAccept: 0
+        });
     }
 
     //▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄
@@ -724,10 +726,10 @@ contract SMate {
                 string.concat(
                     /**
                      * @dev if isExternalStaking is true,
-                     * the function selector is for externalStaking
-                     * else is for internalStaking
+                     * the function selector is for publicStaking
+                     * else is for presaleStaking
                      */
-                    isExternalStaking ? "cedc1483" : "0db15a80",
+                    isExternalStaking ? "21cc1749" : "6257deec",
                     ",",
                     _isStaking ? "true" : "false",
                     ",",
@@ -812,14 +814,6 @@ contract SMate {
         return stakingNonce[_account][_nonce];
     }
 
-    function getTimeAllowExternalStaking() external view returns (uint256) {
-        return allowExternalStaking_Time;
-    }
-
-    function getTimeAllowInternalStaking() external view returns (uint256) {
-        return allowInternalStaking_Time;
-    }
-
     function getGoldenFisher() external view returns (address) {
         return goldenFisher.actual;
     }
@@ -841,12 +835,20 @@ contract SMate {
         return presaleStakerCount;
     }
 
-    function getAllowExternalStaking() external view returns (bool) {
-        return allowExternalStaking;
+    function getAllDataOfAllowPublicStaking()
+        external
+        view
+        returns (BoolTypeProposal memory)
+    {
+        return allowPublicStaking;
     }
 
-    function getAllowInternalStaking() external view returns (bool) {
-        return allowInternalStaking;
+    function getAllowPresaleStaking()
+        external
+        view
+        returns (BoolTypeProposal memory)
+    {
+        return allowPresaleStaking;
     }
 
     function getEvvmAddress() external view returns (address) {

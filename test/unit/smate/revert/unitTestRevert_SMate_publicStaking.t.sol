@@ -26,7 +26,7 @@ import {Erc191TestBuilder} from "@RollAMate/libraries/Erc191TestBuilder.sol";
 import {EstimatorMock} from "mock-contracts/EstimatorMock.sol";
 import {EvvmMockStorage} from "mock-contracts/EvvmMockStorage.sol";
 
-contract unitTestRevert_SMate_externalStaking is Test, Constants {
+contract unitTestRevert_SMate_publicStaking is Test, Constants {
     SMateMock sMate;
     EvvmMock evvm;
     EstimatorMock estimator;
@@ -42,9 +42,9 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         vm.startPrank(ADMIN.Address);
 
-        sMate.prepareSetAllowExternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         skip(1 days);
-        sMate.confirmSetAllowExternalStaking();
+        sMate.confirmChangeAllowPublicStaking();
 
         vm.stopPrank();
     }
@@ -121,7 +121,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             signer.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 isStaking,
                 amountOfSmate,
                 nonceSmate
@@ -169,7 +169,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 1001001
@@ -179,7 +179,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -234,7 +234,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 1001001
@@ -244,7 +244,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -303,7 +303,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 1001001
@@ -313,7 +313,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -368,7 +368,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 1001001
@@ -378,7 +378,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -433,7 +433,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 1001001
@@ -443,7 +443,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -498,7 +498,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 1001001
@@ -508,7 +508,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -563,7 +563,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 1001001
@@ -573,7 +573,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -628,7 +628,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 1001001
@@ -638,7 +638,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -693,7 +693,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 1001001
@@ -703,7 +703,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -758,7 +758,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_2.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 1001001
@@ -768,7 +768,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -825,7 +825,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 false,
                 111,
                 1001001
@@ -835,7 +835,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -890,7 +890,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 777,
                 1001001
@@ -900,7 +900,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -955,7 +955,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 true,
                 111,
                 777
@@ -965,7 +965,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -1010,7 +1010,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
@@ -1035,7 +1035,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -1081,7 +1081,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
@@ -1106,7 +1106,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             2002,
@@ -1156,7 +1156,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
@@ -1182,7 +1182,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             2002,
@@ -1207,7 +1207,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             3003,
@@ -1254,7 +1254,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
@@ -1283,9 +1283,9 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         vm.startPrank(ADMIN.Address);
 
-        sMate.prepareSetAllowExternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         skip(1 days);
-        sMate.confirmSetAllowExternalStaking();
+        sMate.confirmChangeAllowPublicStaking();
 
         vm.stopPrank();
 
@@ -1307,7 +1307,7 @@ contract unitTestRevert_SMate_externalStaking is Test, Constants {
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
         vm.expectRevert();
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,

@@ -26,7 +26,7 @@ import {Erc191TestBuilder} from "@RollAMate/libraries/Erc191TestBuilder.sol";
 import {EstimatorMock} from "mock-contracts/EstimatorMock.sol";
 import {EvvmMockStorage} from "mock-contracts/EvvmMockStorage.sol";
 
-contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
+contract unitTestCorrect_SMate_publicStaking_AsyncExecutionOnPay is
     Test,
     Constants
 {
@@ -45,9 +45,9 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
 
         vm.startPrank(ADMIN.Address);
 
-        sMate.prepareSetAllowExternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         skip(1 days);
-        sMate.confirmSetAllowExternalStaking();
+        sMate.confirmChangeAllowPublicStaking();
 
         vm.stopPrank();
     }
@@ -117,7 +117,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForExternalStaking(
+            Erc191TestBuilder.buildMessageSignedForPublicStaking(
                 isStaking,
                 amountOfSmate,
                 nonceSmate
@@ -140,7 +140,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
      * PF: Includes priority fee
      */
 
-    function test__externalStaking__stake_nS_nPF() external {
+    function test__publicStaking__stake_nS_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -154,21 +154,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -195,7 +195,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 10);
     }
 
-    function test__externalStaking__unstake_nS_nPF() external {
+    function test__publicStaking__unstake_nS_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -209,21 +209,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -232,21 +232,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             5,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             5,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -278,7 +278,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 5);
     }
 
-    function test__externalStaking__fullUnstake_nS_nPF() external {
+    function test__publicStaking__fullUnstake_nS_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -292,21 +292,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -317,21 +317,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -366,7 +366,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 0);
     }
 
-    function test__externalStaking__stakeAfterFullUnstake_nS_nPF() external {
+    function test__publicStaking__stakeAfterFullUnstake_nS_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -380,21 +380,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -405,21 +405,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -430,21 +430,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1003,
+            true,
             1003
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1003,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1003,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -489,7 +489,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[2].totalStaked, 10);
     }
 
-    function test__externalStaking__stake_nS_PF() external {
+    function test__publicStaking__stake_nS_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -503,21 +503,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -544,7 +544,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 10);
     }
 
-    function test__externalStaking__unstake_nS_PF() external {
+    function test__publicStaking__unstake_nS_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -558,21 +558,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -581,21 +581,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             5,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             5,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -627,7 +627,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 5);
     }
 
-    function test__externalStaking__fullUnstake_nS_PF() external {
+    function test__publicStaking__fullUnstake_nS_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -641,21 +641,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -666,21 +666,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -715,7 +715,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 0);
     }
 
-    function test__externalStaking__stakeAfterFullUnstake_nS_PF() external {
+    function test__publicStaking__stakeAfterFullUnstake_nS_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -729,21 +729,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -754,21 +754,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -779,21 +779,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1003,
+            true,
             1003
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1003,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1003,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -838,7 +838,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[2].totalStaked, 10);
     }
 
-    function test__externalStaking__stake_S_nPF() external {
+    function test__publicStaking__stake_S_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -852,21 +852,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -890,7 +890,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 10);
     }
 
-    function test__externalStaking__unstake_S_nPF() external {
+    function test__publicStaking__unstake_S_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -904,21 +904,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -927,21 +927,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             5,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             5,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -970,7 +970,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 5);
     }
 
-    function test__externalStaking__fullUnstake_S_nPF() external {
+    function test__publicStaking__fullUnstake_S_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -984,21 +984,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1009,21 +1009,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1055,7 +1055,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 0);
     }
 
-    function test__externalStaking__stakeAfterFullUnstake_S_nPF() external {
+    function test__publicStaking__stakeAfterFullUnstake_S_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -1069,21 +1069,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1094,21 +1094,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1119,21 +1119,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1003,
+            true,
             1003
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1003,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1003,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1175,7 +1175,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[2].totalStaked, 10);
     }
 
-    function test__externalStaking__stake_S_PF() external {
+    function test__publicStaking__stake_S_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -1189,21 +1189,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             totalOfPriorityFee,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1227,7 +1227,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 10);
     }
 
-    function test__externalStaking__unstake_S_PF() external {
+    function test__publicStaking__unstake_S_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -1241,21 +1241,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1264,21 +1264,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             5,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             5,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1307,7 +1307,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 5);
     }
 
-    function test__externalStaking__fullUnstake_S_PF() external {
+    function test__publicStaking__fullUnstake_S_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -1321,21 +1321,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1346,21 +1346,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1392,7 +1392,7 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 0);
     }
 
-    function test__externalStaking__stakeAfterFullUnstake_S_PF() external {
+    function test__publicStaking__stakeAfterFullUnstake_S_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -1406,21 +1406,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             1001
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1001,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1431,21 +1431,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             false,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             1002
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1002,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1002,
+            true,
             signatureEVVM
         );
         vm.stopPrank();
@@ -1456,21 +1456,21 @@ contract unitTestCorrect_SMate_externalStaking_SyncExecutionOnPay is
             true,
             10,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1003,
+            true,
             1003
         );
 
         vm.startPrank(COMMON_USER_STAKER.Address);
-        sMate.externalStaking(
+        sMate.publicStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1003,
             10,
             signatureSMate,
             0.001 ether,
-            evvm.getNextCurrentSyncNonce(COMMON_USER_NO_STAKER_1.Address),
-            false,
+            1003,
+            true,
             signatureEVVM
         );
         vm.stopPrank();

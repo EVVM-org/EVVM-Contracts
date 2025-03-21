@@ -26,7 +26,7 @@ import {Erc191TestBuilder} from "@RollAMate/libraries/Erc191TestBuilder.sol";
 import {EstimatorMock} from "mock-contracts/EstimatorMock.sol";
 import {EvvmMockStorage} from "mock-contracts/EvvmMockStorage.sol";
 
-contract unitTestRevert_SMate_presaleStake is Test, Constants {
+contract unitTestRevert_SMate_presaleStaking is Test, Constants {
     SMateMock sMate;
     EvvmMock evvm;
     EstimatorMock estimator;
@@ -42,9 +42,9 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         vm.startPrank(ADMIN.Address);
 
-        sMate.prepareSetAllowInternalStaking();
+        sMate.prepareChangeAllowPresaleStaking();
         skip(1 days);
-        sMate.confirmSetAllowInternalStaking();
+        sMate.confirmChangeAllowPresaleStaking();
 
         sMate.addPresaleStaker(COMMON_USER_NO_STAKER_1.Address);
         vm.stopPrank();
@@ -120,7 +120,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 isStaking,
                 1,
                 nonceSmate
@@ -138,7 +138,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
      * some denominations on test can be explicit expleined
      */
 
-    function test__unitRevert__presaleStake__bPaySigAtSigner() external {
+    function test__unitRevert__presaleStaking__bPaySigAtSigner() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -171,7 +171,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -186,7 +186,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -215,7 +215,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bPaySigAtToAddress() external {
+    function test__unitRevert__presaleStaking__bPaySigAtToAddress() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -248,7 +248,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -263,7 +263,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -296,7 +296,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
      ! note: if sMate in the future has a MNS identity, then rework
      !       this test
      */
-    function test__unitRevert__presaleStake__bPaySigAtToIdentity() external {
+    function test__unitRevert__presaleStaking__bPaySigAtToIdentity() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -329,7 +329,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -344,7 +344,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -373,7 +373,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bPaySigAtTokenAddress() external {
+    function test__unitRevert__presaleStaking__bPaySigAtTokenAddress() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -406,7 +406,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -421,7 +421,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -450,7 +450,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bPaySigAtAmount() external {
+    function test__unitRevert__presaleStaking__bPaySigAtAmount() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -483,7 +483,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -498,7 +498,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -527,7 +527,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bPaySigAtPriorityFee() external {
+    function test__unitRevert__presaleStaking__bPaySigAtPriorityFee() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -560,7 +560,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -575,7 +575,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -604,7 +604,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bPaySigAtNonce() external {
+    function test__unitRevert__presaleStaking__bPaySigAtNonce() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -637,7 +637,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -652,7 +652,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -681,7 +681,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bPaySigAtPriorityFlag() external {
+    function test__unitRevert__presaleStaking__bPaySigAtPriorityFlag() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -714,7 +714,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -729,7 +729,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -758,7 +758,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bPaySigAtExecutor() external {
+    function test__unitRevert__presaleStaking__bPaySigAtExecutor() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -791,7 +791,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -806,7 +806,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -835,7 +835,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bStakeSigAtSigner() external {
+    function test__unitRevert__presaleStaking__bStakeSigAtSigner() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -868,7 +868,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_2.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -883,7 +883,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -912,7 +912,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bStakeSigAtIsStakingFlag()
+    function test__unitRevert__presaleStaking__bStakeSigAtIsStakingFlag()
         external
     {
         uint8 v;
@@ -947,7 +947,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 false,
                 1,
                 1001001
@@ -962,7 +962,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -991,7 +991,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bStakeSigAtAmount() external {
+    function test__unitRevert__presaleStaking__bStakeSigAtAmount() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -1024,7 +1024,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 10,
                 1001001
@@ -1039,7 +1039,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -1068,7 +1068,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__bStakeSigAtNonce() external {
+    function test__unitRevert__presaleStaking__bStakeSigAtNonce() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -1101,7 +1101,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(true, 1, 111)
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(true, 1, 111)
         );
         bytes memory signatureSMate = Erc191TestBuilder.buildERC191Signature(
             v,
@@ -1112,7 +1112,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -1142,7 +1142,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
     }
 
     /*
-    function test__unitRevert__presaleStake__() external {
+    function test__unitRevert__presaleStaking__() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -1175,7 +1175,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -1190,7 +1190,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -1223,7 +1223,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
     }
     */
 
-    function test__unitRevert__presaleStake__notAPresaleStaker() external {
+    function test__unitRevert__presaleStaking__notAPresaleStakingr() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -1256,7 +1256,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_2.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -1271,7 +1271,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_2.Address,
             1001001,
@@ -1300,7 +1300,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__nonceAlreadyUsed() external {
+    function test__unitRevert__presaleStaking__nonceAlreadyUsed() external {
         uint8 v;
         bytes32 r;
         bytes32 s;
@@ -1322,7 +1322,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -1352,7 +1352,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -1363,7 +1363,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -1392,7 +1392,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__allowExternalStakingIsFalse()
+    function test__unitRevert__presaleStaking__allowExternalStakingIsFalse()
         external
     {
         uint8 v;
@@ -1401,9 +1401,9 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         vm.startPrank(ADMIN.Address);
 
-        sMate.prepareSetAllowInternalStaking();
+        sMate.prepareChangeAllowPublicStaking();
         skip(1 days);
-        sMate.confirmSetAllowInternalStaking();
+        sMate.confirmChangeAllowPublicStaking();
         vm.stopPrank();
 
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
@@ -1434,7 +1434,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 1,
                 1001001
@@ -1449,7 +1449,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -1478,7 +1478,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__userTriesToStakeMoreThanOne()
+    function test__unitRevert__presaleStaking__userTriesToStakeMoreThanOne()
         external
     {
         uint8 v;
@@ -1513,7 +1513,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 true,
                 2,
                 1001001
@@ -1528,7 +1528,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -1557,7 +1557,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__userStakeMoreThanTheLimit()
+    function test__unitRevert__presaleStaking__userStakeMoreThanTheLimit()
         external
     {
         uint8 v;
@@ -1581,7 +1581,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             100,
@@ -1602,7 +1602,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             101,
@@ -1625,7 +1625,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             102,
@@ -1654,7 +1654,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unitRevert__presaleStake__userUnstakeWithoutStaking()
+    function test__unitRevert__presaleStaking__userUnstakeWithoutStaking()
         external
     {
         uint8 v;
@@ -1689,7 +1689,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         (v, r, s) = vm.sign(
             COMMON_USER_NO_STAKER_1.PrivateKey,
-            Erc191TestBuilder.buildMessageSignedForPresaleStake(
+            Erc191TestBuilder.buildMessageSignedForPresaleStaking(
                 false,
                 1,
                 1001001
@@ -1704,7 +1704,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_STAKER.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             1001001,
@@ -1733,7 +1733,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__fullUnstakeDosentRespectTimeLimit()
+    function test__unit_correct__presaleStaking_AsyncExecution__fullUnstakeDosentRespectTimeLimit()
         external
     {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
@@ -1754,7 +1754,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             100,
@@ -1775,7 +1775,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             101,
@@ -1796,7 +1796,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             102,
@@ -1819,7 +1819,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
 
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             103,
@@ -1841,7 +1841,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
     }
 
-    function test__unit_correct__presaleStake_AsyncExecution__notInTimeToRestake()
+    function test__unit_correct__presaleStaking_AsyncExecution__notInTimeToRestake()
         external
     {
         vm.startPrank(ADMIN.Address);
@@ -1868,7 +1868,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             100,
@@ -1889,7 +1889,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             101,
@@ -1910,7 +1910,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         );
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             102,
@@ -1933,7 +1933,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
         skip(sMate.getSecondsToUnlockFullUnstaking());
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
-        sMate.presaleStake(
+        sMate.presaleStaking(
             false,
             COMMON_USER_NO_STAKER_1.Address,
             103,
@@ -1955,7 +1955,7 @@ contract unitTestRevert_SMate_presaleStake is Test, Constants {
 
         vm.startPrank(COMMON_USER_NO_STAKER_2.Address);
         vm.expectRevert();
-        sMate.presaleStake(
+        sMate.presaleStaking(
             true,
             COMMON_USER_NO_STAKER_1.Address,
             104,
