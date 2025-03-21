@@ -251,6 +251,15 @@ unitTestRevertSMateAdminFunctions:
 	@echo "Running AdminFunctions unit revert tests"
 	@forge test --match-path test/unit/smate/revert/unitTestRevert_SMate_adminFunctions.t.sol --summary --detailed --gas-report -vvv --show-progress
 
+#### Fuzz Tests
+
+fuzzTestSMate:
+	@echo "Running SMate unit fuzz tests"
+	@forge test --match-path test/fuzz/smate/fuzzTest_SMate.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestSMateGoldenStaking:
+	@echo "Running GoldenStaking unit fuzz tests"
+	@forge test --match-path test/fuzz/sMate/fuzzTest_SMate_goldenStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
 
 ## Estimator
 
