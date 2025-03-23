@@ -261,6 +261,14 @@ fuzzTestSMateGoldenStaking:
 	@echo "Running GoldenStaking unit fuzz tests"
 	@forge test --match-path test/fuzz/sMate/fuzzTest_SMate_goldenStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
 
+fuzzTestSMatePresaleStaking:
+	@echo "Running PresaleStaking unit fuzz tests"
+	@forge test --match-path test/fuzz/sMate/fuzzTest_SMate_presaleStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
+
+fuzzTestSMatePublicStaking:
+	@echo "Running PublicStaking unit fuzz tests"
+	@forge test --match-path test/fuzz/sMate/fuzzTest_SMate_publicStaking.t.sol --summary --detailed --gas-report -vvv --show-progress
+
 ## Estimator
 
 ### Unit tests
