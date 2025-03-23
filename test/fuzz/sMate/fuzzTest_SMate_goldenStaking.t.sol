@@ -125,44 +125,28 @@ contract fuzzTest_SMate_goldenStaking is Test, Constants {
                             GOLDEN_STAKER.Address
                         )
                     );
-
-                    totalAmount = giveMateToExecute(
-                        GOLDEN_STAKER.Address,
-                        input[i].amount
-                    );
-
-                    signatureEVVM = makePaySignature(totalAmount);
-
-                    vm.startPrank(GOLDEN_STAKER.Address);
-
-                    sMate.goldenStaking(
-                        input[i].isStaking,
-                        input[i].amount,
-                        signatureEVVM
-                    );
-
-                    vm.stopPrank();
-
-                    assert(evvm.isMateStaker(GOLDEN_STAKER.Address));
-                } else {
-                    totalAmount = giveMateToExecute(
-                        GOLDEN_STAKER.Address,
-                        input[i].amount
-                    );
-
-                    signatureEVVM = makePaySignature(totalAmount);
-
-                    vm.startPrank(GOLDEN_STAKER.Address);
-
-                    sMate.goldenStaking(
-                        input[i].isStaking,
-                        input[i].amount,
-                        signatureEVVM
-                    );
-
-                    vm.stopPrank();
                 }
+
+                totalAmount = giveMateToExecute(
+                    GOLDEN_STAKER.Address,
+                    input[i].amount
+                );
+
+                signatureEVVM = makePaySignature(totalAmount);
+
+                vm.startPrank(GOLDEN_STAKER.Address);
+
+                sMate.goldenStaking(
+                    input[i].isStaking,
+                    input[i].amount,
+                    signatureEVVM
+                );
+
+                vm.stopPrank();
+
+                assert(evvm.isMateStaker(GOLDEN_STAKER.Address));
             } else {
+                // unstaking
                 if (
                     input[i].amount >=
                     sMate.getUserAmountStaked(GOLDEN_STAKER.Address)

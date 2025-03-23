@@ -140,7 +140,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
      * PF: Includes priority fee
      */
 
-    function test__publicStaking__stake_nS_nPF() external {
+    function test__unit_correct__publicStaking__stake_nS_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -195,7 +195,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 10);
     }
 
-    function test__publicStaking__unstake_nS_nPF() external {
+    function test__unit_correct__publicStaking__unstake_nS_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -278,7 +278,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 5);
     }
 
-    function test__publicStaking__fullUnstake_nS_nPF() external {
+    function test__unit_correct__publicStaking__fullUnstake_nS_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -366,7 +366,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 0);
     }
 
-    function test__publicStaking__stakeAfterFullUnstake_nS_nPF() external {
+    function test__unit_correct__publicStaking__stakeAfterFullUnstake_nS_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -489,7 +489,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[2].totalStaked, 10);
     }
 
-    function test__publicStaking__stake_nS_PF() external {
+    function test__unit_correct__publicStaking__stake_nS_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -544,7 +544,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 10);
     }
 
-    function test__publicStaking__unstake_nS_PF() external {
+    function test__unit_correct__publicStaking__unstake_nS_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -627,7 +627,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 5);
     }
 
-    function test__publicStaking__fullUnstake_nS_PF() external {
+    function test__unit_correct__publicStaking__fullUnstake_nS_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -715,7 +715,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 0);
     }
 
-    function test__publicStaking__stakeAfterFullUnstake_nS_PF() external {
+    function test__unit_correct__publicStaking__stakeAfterFullUnstake_nS_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -838,7 +838,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[2].totalStaked, 10);
     }
 
-    function test__publicStaking__stake_S_nPF() external {
+    function test__unit_correct__publicStaking__stake_S_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -890,7 +890,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 10);
     }
 
-    function test__publicStaking__unstake_S_nPF() external {
+    function test__unit_correct__publicStaking__unstake_S_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -970,7 +970,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 5);
     }
 
-    function test__publicStaking__fullUnstake_S_nPF() external {
+    function test__unit_correct__publicStaking__fullUnstake_S_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -1055,7 +1055,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 0);
     }
 
-    function test__publicStaking__stakeAfterFullUnstake_S_nPF() external {
+    function test__unit_correct__publicStaking__stakeAfterFullUnstake_S_nPF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -1175,7 +1175,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[2].totalStaked, 10);
     }
 
-    function test__publicStaking__stake_S_PF() external {
+    function test__unit_correct__publicStaking__stake_S_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -1227,7 +1227,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[0].totalStaked, 10);
     }
 
-    function test__publicStaking__unstake_S_PF() external {
+    function test__unit_correct__publicStaking__unstake_S_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -1307,7 +1307,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 5);
     }
 
-    function test__publicStaking__fullUnstake_S_PF() external {
+    function test__unit_correct__publicStaking__fullUnstake_S_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
@@ -1392,7 +1392,7 @@ contract unitTestCorrect_SMate_publicStaking_SyncExecutionOnPay is
         assertEq(history[1].totalStaked, 0);
     }
 
-    function test__publicStaking__stakeAfterFullUnstake_S_PF() external {
+    function test__unit_correct__publicStaking__stakeAfterFullUnstake_S_PF() external {
         (uint256 totalOfMate, uint256 totalOfPriorityFee) = giveMateToExecute(
             COMMON_USER_NO_STAKER_1.Address,
             10,
