@@ -32,7 +32,7 @@ contract SMateMock {
     using SignatureRecover for *;
 
     struct presaleStakerMetadata {
-        bool isStaker;
+        bool isAllow;
         uint256 stakingAmount;
     }
 
@@ -204,12 +204,16 @@ contract SMateMock {
 
         presaleClaims(_isStaking, _user);
 
-        presaleInternalExecution(
+        if (!allowPresaleStaking.flag) {
+            revert();
+        }
+        stakingProcess(
             _isStaking,
             _user,
+            1,
             _priorityFee_Evvm,
-            _priority_Evvm,
             _nonce_Evvm,
+            _priority_Evvm,
             _signature_Evvm
         );
 
@@ -235,7 +239,7 @@ contract SMateMock {
         if (allowPublicStaking.flag) {
             revert();
         } else {
-            if (userPresaleStaker[_user].isStaker) {
+            if (userPresaleStaker[_user].isAllow) {
                 if (_isStaking) {
                     // staking
 
@@ -264,38 +268,7 @@ contract SMateMock {
         (valor 1), al incializarse el contrato está en valor 0.
      */
 
-    /**
-     * @dev presaleInternalExecution allows the contract to make a stakingProcess.
-     * @param _isStaking boolean to check if the user is staking or unstaking
-     * @param _user user address of the user that wants to stake/unstake
-     * @param _priorityFee_Evvm priority fee for the Evvm contract
-     * @param _priority_Evvm priority for the Evvm contract (true for async, false for sync)
-     * @param _nonce_Evvm nonce for the Evvm contract // staking or unstaking
-     * @param _signature_Evvm signature for the Evvm contract // staking or unstaking
-     *
-     * @notice only can stake if allowPresaleStaking.flag is set to open (true)
-     */
-    function presaleInternalExecution(
-        bool _isStaking,
-        address _user,
-        uint256 _priorityFee_Evvm,
-        bool _priority_Evvm,
-        uint256 _nonce_Evvm,
-        bytes memory _signature_Evvm
-    ) internal {
-        if (!allowPresaleStaking.flag) {
-            revert();
-        }
-        stakingProcess(
-            _isStaking,
-            _user,
-            1,
-            _priorityFee_Evvm,
-            _nonce_Evvm,
-            _priority_Evvm,
-            _signature_Evvm
-        );
-    }
+
 
     /*
         publicStaking función del stake que puede ser llamada 
@@ -580,7 +553,7 @@ contract SMateMock {
         if (presaleStakerCount > LIMIT_PRESALE_STAKER) {
             revert();
         }
-        userPresaleStaker[_staker].isStaker = true;
+        userPresaleStaker[_staker].isAllow = true;
         presaleStakerCount++;
     }
 
@@ -589,7 +562,7 @@ contract SMateMock {
             if (presaleStakerCount > LIMIT_PRESALE_STAKER) {
                 revert();
             }
-            userPresaleStaker[_stakers[i]].isStaker = true;
+            userPresaleStaker[_stakers[i]].isAllow = true;
             presaleStakerCount++;
         }
     }
@@ -863,7 +836,7 @@ contract SMateMock {
         address _account
     ) external view returns (bool, uint256) {
         return (
-            userPresaleStaker[_account].isStaker,
+            userPresaleStaker[_account].isAllow,
             userPresaleStaker[_account].stakingAmount
         );
     }
