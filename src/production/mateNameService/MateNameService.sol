@@ -842,38 +842,41 @@ contract MateNameService {
         mateNameServiceNonce[_user][_nonce] = true;
     }
 
-    /*
-        How to use:
+    /* 
+    * How to use identityCustomMetadata:
+    *
+    * identityCustomMetadata["username"][key] = "value";
+    *
+    * Parameters:
+    * 
+    * - key (numberKey):
+    *   Should be treated as a nonce (unique number) to avoid overwriting existing values.
+    *   The value 0 is used as a header to check for the absence of a value in case the user
+    *   does not enter one.
+    *
+    * - value (customValue):
+    *   Is a text string that allows storing any type of data.
+    *   The data follows a standard to facilitate reading, although it is not mandatory
+    *   to fully comply with it.
+    *
+    * Standard value format:
+    * [schema]:[subschema]>[value]
+    *
+    * Examples:
+    * memberOf:>EVVM
+    * socialMedia:x     >jistro       // LinkedIn without subschema
+    * email:dev   >jistro@evvm.org    // Email with "dev" subschema
+    * email:callme>contact@jistro.xyz  // Email with "callme" subschema
+    *
+    * Important notes:
+    * - 'schema' is based on https://schema.org/docs/schemas.html
+    * - ':' is the separator between schema and subschema
+    * - '>' is the separator between metadata and value
+    * - If 'schema' or 'subschema' have fewer than 5 characters, they should be padded with spaces:
+    *   Example: vk   :job  >jane-doe
+    * - In case of social networks, the 'schema' should be "socialMedia" and the 'subschema' should be the social network name
+    */
 
-        identityCustomMetadata["username"][key] = "value";
-
-        * numberKey
-        The 'key' should be treated as a nonce to avoid overwriting the value.
-        The 0 is used as a header to check for the absence of a value in case the user does not enter one.
-
-        * customValue
-        The value is a string of text, allowing for storing any type of data.
-        The data follows a standard to facilitate reading, although it is not mandatory to fully comply with it. To understand the standard, here is an example:
-
-        likdn:>kevin-padilla
-        teleg:>jistr0
-        twitt:>@jistro
-        email:dev   >dev@jistro.xyz 
-        email:callme>jistro@skiff.com
-
-        The standard is as follows:
-        - 'key' is the title of the data and must be exactly 5 characters long.
-        - ':' is the separator between 'key' and 'subkey'.
-        - 'subkey' is the subtitle of the data. It is not mandatory, but if used, it must be 5 characters long or left empty if not needed.
-        - '>' is the separator between 'subkey' and 'value'.
-        - 'value' is the value of the data. In theory, there is no limit on the number of characters, but it is recommended to keep it as short as possible to optimize resources.
-
-        Attention:
-        If 'key' or 'subkey' have less than 5 characters, they should be filled with spaces. For example:
-
-        vk   :job  >kevin-padilla
-
-     */
     function addCustomMetadata(
         address _user,
         uint256 _nonce,
