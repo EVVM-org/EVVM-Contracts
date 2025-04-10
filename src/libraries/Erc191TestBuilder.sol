@@ -78,7 +78,7 @@ library Erc191TestBuilder {
         return
             buildHashForSign(
                 string.concat(
-                    "f27f71db",
+                    "ef83c1d6",
                     ",",
                     AdvancedStrings.bytes32ToString(hashList),
                     ",",
