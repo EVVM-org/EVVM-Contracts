@@ -113,7 +113,7 @@ contract MateNameService {
         _;
     }
 
-    modifier onlyFisher() {
+    modifier onlyStaker() {
         if (!Evvm(evvmAddress.current).isMateStaker(msg.sender)) {
             revert();
         }
@@ -153,7 +153,7 @@ contract MateNameService {
         uint256 _nonce_Evvm,
         bool _priority_Evvm,
         bytes memory _signature_Evvm
-    ) public verifyIfNonceIsAvailable(_user, _nonce) onlyFisher {
+    ) public verifyIfNonceIsAvailable(_user, _nonce) onlyStaker {
         if (
             !verifyMessageSignedForPreRegistrationUsername(
                 _user,
@@ -191,13 +191,10 @@ contract MateNameService {
 
         mateNameServiceNonce[_user][_nonce] = true;
 
-        if (Evvm(evvmAddress.current).isMateStaker(msg.sender)) {
-            makeCaPay(
-                msg.sender,
-                Evvm(evvmAddress.current).seeMateReward() +
-                    _priorityFeeForFisher
-            );
-        }
+        makeCaPay(
+            msg.sender,
+            Evvm(evvmAddress.current).seeMateReward() + _priorityFeeForFisher
+        );
     }
 
     /**
@@ -244,15 +241,10 @@ contract MateNameService {
             revert();
         }
 
-        //si es antes de  PROMOTION_END_DATE el precio es 0
-        uint256 priceOfUsername = block.timestamp < PROMOTION_END_DATE
-            ? 0
-            : (100 * (Evvm(evvmAddress.current).seeMateReward()));
-
         makePay(
             _user,
             _nonce_Evvm,
-            priceOfUsername,
+            getPricePerRegistration(),
             _priorityFeeForFisher,
             _priority_Evvm,
             _signature_Evvm
@@ -549,7 +541,7 @@ contract MateNameService {
     )
         public
         verifyIfNonceIsAvailable(_user, _nonce)
-        onlyFisher
+        onlyStaker
         returns (uint256 offerID)
     {
         if (
@@ -635,7 +627,7 @@ contract MateNameService {
         uint256 _nonce_Evvm,
         bool _priority_Evvm,
         bytes memory _signature_Evvm
-    ) public verifyIfNonceIsAvailable(_user, _nonce) onlyFisher {
+    ) public verifyIfNonceIsAvailable(_user, _nonce) onlyStaker {
         if (
             usernameOffers[_username][_offerID].offerer != _user ||
             !verifyMessageSignedForWithdrawOffer(
@@ -842,40 +834,40 @@ contract MateNameService {
         mateNameServiceNonce[_user][_nonce] = true;
     }
 
-    /* 
-    * How to use identityCustomMetadata:
-    *
-    * identityCustomMetadata["username"][key] = "value";
-    *
-    * Parameters:
-    * 
-    * - key (numberKey):
-    *   Should be treated as a nonce (unique number) to avoid overwriting existing values.
-    *   The value 0 is used as a header to check for the absence of a value in case the user
-    *   does not enter one.
-    *
-    * - value (customValue):
-    *   Is a text string that allows storing any type of data.
-    *   The data follows a standard to facilitate reading, although it is not mandatory
-    *   to fully comply with it.
-    *
-    * Standard value format:
-    * [schema]:[subschema]>[value]
-    *
-    * Examples:
-    * memberOf:>EVVM
-    * socialMedia:x     >jistro       // LinkedIn without subschema
-    * email:dev   >jistro@evvm.org    // Email with "dev" subschema
-    * email:callme>contact@jistro.xyz  // Email with "callme" subschema
-    *
-    * Important notes:
-    * - 'schema' is based on https://schema.org/docs/schemas.html
-    * - ':' is the separator between schema and subschema
-    * - '>' is the separator between metadata and value
-    * - If 'schema' or 'subschema' have fewer than 5 characters, they should be padded with spaces:
-    *   Example: vk   :job  >jane-doe
-    * - In case of social networks, the 'schema' should be "socialMedia" and the 'subschema' should be the social network name
-    */
+    /*
+     * How to use identityCustomMetadata:
+     *
+     * identityCustomMetadata["username"][key] = "value";
+     *
+     * Parameters:
+     *
+     * - key (numberKey):
+     *   Should be treated as a nonce (unique number) to avoid overwriting existing values.
+     *   The value 0 is used as a header to check for the absence of a value in case the user
+     *   does not enter one.
+     *
+     * - value (customValue):
+     *   Is a text string that allows storing any type of data.
+     *   The data follows a standard to facilitate reading, although it is not mandatory
+     *   to fully comply with it.
+     *
+     * Standard value format:
+     * [schema]:[subschema]>[value]
+     *
+     * Examples:
+     * memberOf:>EVVM
+     * socialMedia:x     >jistro       // LinkedIn without subschema
+     * email:dev   >jistro@evvm.org    // Email with "dev" subschema
+     * email:callme>contact@jistro.xyz  // Email with "callme" subschema
+     *
+     * Important notes:
+     * - 'schema' is based on https://schema.org/docs/schemas.html
+     * - ':' is the separator between schema and subschema
+     * - '>' is the separator between metadata and value
+     * - If 'schema' or 'subschema' have fewer than 5 characters, they should be padded with spaces:
+     *   Example: vk   :job  >jane-doe
+     * - In case of social networks, the 'schema' should be "socialMedia" and the 'subschema' should be the social network name
+     */
 
     function addCustomMetadata(
         address _user,
@@ -891,7 +883,7 @@ contract MateNameService {
         public
         onlyAdminOfIdentity(_user, _identity)
         verifyIfNonceIsAvailable(_user, _nonce)
-        onlyFisher
+        onlyStaker
     {
         if (
             !verifyMessageSignedForAddCustomMetadata(
@@ -969,7 +961,7 @@ contract MateNameService {
         public
         onlyAdminOfIdentity(_user, _identity)
         verifyIfNonceIsAvailable(_user, _nonce)
-        onlyFisher
+        onlyStaker
     {
         if (
             !verifyMessageSignedForRemoveCustomMetadata(
@@ -1561,7 +1553,7 @@ contract MateNameService {
         return
             SignatureRecover.signatureVerification(
                 string.concat(
-                    "b667c80b",
+                    "393b9c6f",
                     ",",
                     AdvancedStrings.bytes32ToString(_hashUsername),
                     ",",
@@ -1582,7 +1574,7 @@ contract MateNameService {
         return
             SignatureRecover.signatureVerification(
                 string.concat(
-                    "75f751ce",
+                    "d134f8b4",
                     ",",
                     _username,
                     ",",

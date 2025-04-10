@@ -1493,7 +1493,7 @@ contract MateNameServiceMock {
         return
             SignatureRecover.signatureVerification(
                 string.concat(
-                    "b667c80b",
+                    "393b9c6f",
                     ",",
                     AdvancedStrings.bytes32ToString(_hashUsername),
                     ",",
@@ -1514,7 +1514,7 @@ contract MateNameServiceMock {
         return
             SignatureRecover.signatureVerification(
                 string.concat(
-                    "75f751ce",
+                    "d134f8b4",
                     ",",
                     _username,
                     ",",
