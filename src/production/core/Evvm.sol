@@ -478,8 +478,7 @@ contract Evvm is
             amount
         );
 
-        //giveReward(msg.sender, 1);
-        balances[msg.sender][mate.mateAddress] += mate.reward;
+        _giveMateReward(msg.sender, 1);
 
         nextSyncUsedNonce[user]++;
 
@@ -569,8 +568,7 @@ contract Evvm is
             amount
         );
 
-        //giveReward(msg.sender, 1);
-        balances[msg.sender][mate.mateAddress] += mate.reward;
+        _giveMateReward(msg.sender, 1);
 
         asyncUsedNonce[user][nonce] = true;
 
