@@ -912,18 +912,16 @@ contract MateNameService {
             _signature_Evvm_forAddCustomMetadata
         );
 
-        if (Evvm(evvmAddress.current).isMateStaker(msg.sender)) {
-            makeCaPay(
-                msg.sender,
-                (5 * Evvm(evvmAddress.current).seeMateReward()) +
-                    (((
-                        block.timestamp < PROMOTION_END_DATE
-                            ? 0
-                            : (getPriceToAddCustomMetadata())
-                    ) * 50) / 100) +
-                    _priorityFeeForFisher
-            );
-        }
+        makeCaPay(
+            msg.sender,
+            (5 * Evvm(evvmAddress.current).seeMateReward()) +
+                (((
+                    block.timestamp < PROMOTION_END_DATE
+                        ? 0
+                        : (getPriceToAddCustomMetadata())
+                ) * 50) / 100) +
+                _priorityFeeForFisher
+        );
 
         identityCustomMetadata[_identity][
             identityDetails[_identity].customMetadataMaxSlots
