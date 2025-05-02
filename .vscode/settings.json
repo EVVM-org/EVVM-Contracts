@@ -12,6 +12,7 @@
         "@RollAMate/core/=src/production/core/",
         "@RollAMate/libraries/=src/libraries/",
         "mock-contracts/=src/mock/",
+        "Tesnet-contracts/=src/testnet/",
         "ds-test/=lib/forge-std/lib/ds-test/src/",
         "erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
         "forge-std/=lib/forge-std/src/",

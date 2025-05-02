@@ -7,7 +7,8 @@ DEFAULT_ANVIL_KEY := 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf
 # Network Arguments
 NETWORK_ARGS := --rpc-url http://localhost:8545 --private-key $(DEFAULT_ANVIL_KEY) --broadcast  --via-ir
 AVAX_FUJI_TESTNET_ARGS := --rpc-url $(RPC_URL_AVAX_FUJI) --private-key $(PRIVATE) --broadcast --via-ir -vvvv
-ETH_SEPOLIA_TESTNET_ARGS := --rpc-url $(RPC_URL_ETH_SEPOLIA) --private-key $(PRIVATE) --broadcast --via-ir -vvvv
+ETH_SEPOLIA_TESTNET_ARGS := --rpc-url $(RPC_URL_ETH_SEPOLIA) --private-key $(PRIVATE) --broadcast --verify --etherscan-api-key $(ETHERSCAN_API) -vvvv
+ARB_SEPOLIA_TESTNET_ARGS := --rpc-url $(RPC_URL_ARB_SEPOLIA) --private-key $(PRIVATE) --broadcast --verify --verifier-url "https://api-sepolia.arbiscan.io/api" --etherscan-api-key $(ARBISCAN_API) -vvvv
 
 # Main commands
 all: clean remove install update build 
@@ -26,6 +27,11 @@ anvil:
 
 # Deployment commands
 mock: mockToken mockTreasury mockEvvm
+
+deployTestnet: 
+	@echo "Deploying testnet"
+	@forge script script/DeployTestnet.s.sol:DeployTestnet $(ARB_SEPOLIA_TESTNET_ARGS) -vvvv
+
 
 mockToken:
 	@echo "Deploying test Token Contracts in anvil local testnet"

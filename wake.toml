@@ -13,6 +13,7 @@ remappings = [
     "@RollAMate/interfaces/=src/interfaces/",
     "@RollAMate/core/=src/production/core/",
     "@RollAMate/libraries/=src/libraries/",
+    "Tesnet-contracts/=src/testnet/",
     "mock-contracts/=src/mock/",
     "ds-test/=lib/forge-std/lib/ds-test/src/",
     "erc4626-tests/=lib/openzeppelin-contracts/lib/erc4626-tests/",
