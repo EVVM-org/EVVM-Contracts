@@ -2,11 +2,9 @@
 pragma solidity ^0.8.13;
 
 import {Script, console2} from "forge-std/Script.sol";
-import {EvvmTesnet} from "Tesnet-contracts/EvvmTesnet.sol";
-import {SMateTesnet} from "Tesnet-contracts/SMateTesnet.sol";
 
 contract DeployTestnet is Script {
-    SMateTesnet sMate;
+    /*SMateTesnet sMate;
 
     function run() public {
         vm.broadcast();
@@ -21,6 +19,6 @@ contract DeployTestnet is Script {
             "MNS address: ",
             EvvmTesnet(sMate.getEvvmAddress()).getMateNameServiceAddress()
         );
-        return address(sMate);
+        return address(sMate);*/
     }
 }

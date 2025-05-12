@@ -12,7 +12,7 @@ pragma solidity ^0.8.0;
 ░▒▓█▓▒░        ░▒▓█▓▓█▓▒░   ░▒▓█▓▓█▓▒░ ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░ 
 ░▒▓████████▓▒░  ░▒▓██▓▒░     ░▒▓██▓▒░  ░▒▓█▓▒░░▒▓█▓▒░░▒▓█▓▒░ 
                                                              
- * @title AccountBook contract for Roll A Mate Protocol
+ * @title EVVM contract for Roll A Mate Protocol
  * @author jistro.eth ariutokintumi.eth
  * @notice 
  */
